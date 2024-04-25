@@ -43,7 +43,7 @@ class Game :
             self.states[self.gameStateManager.get_state()].run()
 
             pygame.display.update()
-            self.clock.tick(FPS) 
+            self.clock.tick(FPS)
 
 class GameStateManager :
         def __init__(self, currentState) :
