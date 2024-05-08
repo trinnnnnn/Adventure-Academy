@@ -1,4 +1,4 @@
 import pygame
 
-start_img = pygame.image.load("assets/images/buttons/startup.png").convert_alpha()
-startdown_img = pygame.image.load("assets/images/buttons/startdown.png").convert_alpha()
+placeholder_img = pygame.image.load("assets/images/buttons/placeholder_button.png").convert_alpha()
+placeholderdown_img = pygame.image.load("assets/images/buttons/placeholder_buttondown.png").convert_alpha()

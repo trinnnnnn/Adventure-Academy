@@ -2,6 +2,8 @@ import pygame
 import utils.window as window
 from utils.fps import FPS
 from states.mainmenu import MainMenu
+from states.start import Start
+from states.newsave import Newsave
 
 pygame.init()
 
@@ -28,9 +30,13 @@ class Game :
 
         #gamestates to call
         self.mainmenu = MainMenu(self.screen, self.gameStateManager)
+        self.start = Start(self.screen, self.gameStateManager)
+        self.newsave = Newsave(self.screen, self.gameStateManager)
 
         #gamestate dictionary
-        self.states = {"mainmenu":self.mainmenu
+        self.states = {"mainmenu":self.mainmenu,
+                       "start":self.start,
+                       "newsave":self.newsave
                        }
         
     def run(self) :
@@ -51,6 +57,7 @@ class GameStateManager :
             
         def get_state(self) :
             return self.currentState
+        
         def set_state(self, state) :
             self.currentState = state
 
