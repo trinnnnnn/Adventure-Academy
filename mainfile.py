@@ -4,6 +4,7 @@ from utils.fps import FPS
 from states.mainmenu import MainMenu
 from states.start import Start
 from states.newsave import Newsave
+from states.scoringtest import Scoringtest
 
 pygame.init()
 
@@ -32,11 +33,13 @@ class Game :
         self.mainmenu = MainMenu(self.screen, self.gameStateManager)
         self.start = Start(self.screen, self.gameStateManager)
         self.newsave = Newsave(self.screen, self.gameStateManager)
+        self.scoringtest = Scoringtest(self.screen, self.gameStateManager)
 
         #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
                        "start":self.start,
-                       "newsave":self.newsave
+                       "newsave":self.newsave,
+                       "scoringtest":self.scoringtest,
                        }
         
     def run(self) :

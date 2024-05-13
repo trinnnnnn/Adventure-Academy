@@ -24,7 +24,7 @@ class Start:
             self.gameStateManager.set_state("newsave")
 
         if savecheck:
-            text.draw_text(data.data["username"], (255,255,255), width//2, 100, 50, self.display)
+            text.draw_text(data.userdata["username"], (255,255,255), width//2, 100, 50, self.display)
             if bi.save_button.draw(self.display) :
                 Load("testing")
 

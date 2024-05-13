@@ -22,13 +22,13 @@ class Newsave:
         self.display.fill((0, 255, 255))
 
         if bi.start_button.draw(self.display):
-            self.gameStateManager.set_state("mainmenu")
+            self.gameStateManager.set_state("scoringtest")
 
         if bi.save_button.draw(self.display):
-            Save(data.data, "testing")
+            Save(data.userdata, "testing")
 
         text.draw_text(self.name, (255,255,255), width//2, height//2, 50, self.display)
         self.name, _ = k.Keypress(self, "mainmenu", self.name, None)
-        data.data["username"] = self.name
+        data.userdata["username"] = self.name
 
         CursorChanger.change_cursor(self.buttons, self.display)
