@@ -1,0 +1,1 @@
+{"username": "aaaaaa", "score": 0}

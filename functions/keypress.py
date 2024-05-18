@@ -4,7 +4,7 @@ def Keypress(self, state, text, max_len):
     
     return_pressed = False
     keys = pygame.key.get_pressed()
-    keypress_delay = 220 
+    keypress_delay = 220
 
     if keys[pygame.K_BACKSPACE] and pygame.time.get_ticks() - self.last_keypress_time >= keypress_delay:
         text = text[:-1]

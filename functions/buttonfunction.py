@@ -18,35 +18,27 @@ class Button():
         self.rect.center = (x, y)
         self.clicked = False
 
-    # draw function for the button
     def draw(self, screen, sound=True):
         action = False
-
-        # get mouse position
         pos = pygame.mouse.get_pos()
 
-        # handle not clicked conditions
+        # Ensure button state is reset when not clicked
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
             self.image = self.imagedefault
 
-        # check mouseover
+        # Handle button click
         if self.rect.collidepoint(pos):
             self.image = self.imageclicked
-
-            # check clicked conditions
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
-                # play button click sound if sound is enabled
                 if sound:
-                    pass
+                    pass  # Play button click sound
                 action = True
                 self.clicked = True
             elif pygame.mouse.get_pressed()[0] == 0:
                 self.clicked = False
 
-        # draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
-
         return action
 
 # cursor changer class definition

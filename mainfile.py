@@ -2,8 +2,11 @@ import pygame
 import utils.window as window
 from utils.fps import FPS
 from states.mainmenu import MainMenu
-from states.start import Start
+from states.loadsave import Loadsave
 from states.newsave import Newsave
+from states.categorymenu import Categorymenu
+from states.stagemenu import Stagemenu
+from states.shapes import Shapes
 
 pygame.init()
 
@@ -30,13 +33,19 @@ class Game :
 
         #gamestates to call
         self.mainmenu = MainMenu(self.screen, self.gameStateManager)
-        self.start = Start(self.screen, self.gameStateManager)
+        self.loadsave = Loadsave(self.screen, self.gameStateManager)
         self.newsave = Newsave(self.screen, self.gameStateManager)
+        self.categorymenu = Categorymenu(self.screen, self.gameStateManager)
+        self.stagemenu = Stagemenu(self.screen, self.gameStateManager)
+        self.shapes = Shapes(self.screen, self.gameStateManager)
 
         #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
-                       "start":self.start,
-                       "newsave":self.newsave
+                       "loadsave":self.loadsave,
+                       "newsave":self.newsave,
+                       "categorymenu":self.categorymenu,
+                       "stagemenu":self.stagemenu,
+                       "shapes":self.shapes,
                        }
         
     def run(self) :
@@ -46,9 +55,12 @@ class Game :
                 if event.type == pygame.QUIT:
                     exit()
 
+            self.screen.fill((0, 0, 0))
+
             self.states[self.gameStateManager.get_state()].run()
 
-            pygame.display.update()
+            pygame.display.flip()
+
             self.clock.tick(FPS)
 
 class GameStateManager :
@@ -60,6 +72,12 @@ class GameStateManager :
         
         def set_state(self, state) :
             self.currentState = state
+
+        def get_theme(self):
+            return self.theme
+        
+        def set_theme(self, value):
+            self.theme = value
 
 if __name__ == "__main__":
     p = Game()
