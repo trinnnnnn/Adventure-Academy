@@ -6,7 +6,9 @@ import functions.keypress as k
 from utils.window import width, height
 from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
-class Scoringtest:
+from functions.transition import fade, fadein
+
+class Shapes:
     def __init__(self, display, gameStateManager):
         # Initialize the display and game state
         self.display = display
@@ -15,6 +17,7 @@ class Scoringtest:
         self.score = 0
         self.buttons = [bi.start_button]
         self.last_keypress_time = pygame.time.get_ticks()
+        self.fade_alpha = 255
 
     def run(self):
         shapes_names = list(data.shapes.keys())
@@ -38,3 +41,7 @@ class Scoringtest:
             self.score = 1
 
         CursorChanger.change_cursor(self.buttons, self.display)
+
+        if self.fade_alpha > 0:
+            fadein(self.display, self.fade_alpha)
+            self.fade_alpha -= 5 

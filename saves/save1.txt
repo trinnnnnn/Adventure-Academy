@@ -1,1 +1,1 @@
-{"username": "kk", "score": 1}
+{"username": "aaaaaa", "score": 0}

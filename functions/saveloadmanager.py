@@ -17,4 +17,4 @@ def Save(data, filename):
 # Load function
 def Load(filename):
     with open(f'saves/{filename}.txt', 'r') as json_file:
-        data.data = json.load(json_file)
+        data.userdata = json.load(json_file)
