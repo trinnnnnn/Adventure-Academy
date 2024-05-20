@@ -6,7 +6,7 @@ import functions.keypress as k
 from utils.window import width, height
 from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
-from functions.transition import fade, fadein
+from functions.transition import *
 
 class Shapes:
     def __init__(self, display, gameStateManager):
@@ -40,7 +40,7 @@ class Shapes:
         if self.answer == shapesname0 :
             self.score = 1
 
-        CursorChanger.change_cursor(self.buttons, self.display)
+        CursorChanger.change_cursor(self.buttons)
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)

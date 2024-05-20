@@ -45,7 +45,7 @@ class Button():
 class CursorChanger():
 
     # change cursor function
-    def change_cursor(buttons, screen):
+    def change_cursor(buttons):
         # get position of mouse and check if cursor is on the button or not
         mouse = pygame.mouse.get_pos()
         cursor_on_button = any(button.rect.collidepoint(mouse) for button in buttons)
