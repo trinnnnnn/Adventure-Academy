@@ -41,17 +41,9 @@ class Button():
         screen.blit(self.image, (self.rect.x, self.rect.y))
         return action
 
-# cursor changer class definition
-class CursorChanger():
-
-    # change cursor function
-    def change_cursor(buttons):
-        # get position of mouse and check if cursor is on the button or not
+class CursorChanger:
+    @staticmethod
+    def change_cursor(cursor, buttons):
         mouse = pygame.mouse.get_pos()
         cursor_on_button = any(button.rect.collidepoint(mouse) for button in buttons)
-
-        # change cursor to hand if on button, arrow if off button
-        if cursor_on_button:
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-        else:
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+        cursor.set_hover(cursor_on_button)

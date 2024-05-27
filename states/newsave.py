@@ -11,6 +11,7 @@ from utils.defaultbutton import DefaultButtons
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
 from functions.xshake import x_shake
+from functions.customcursor import CustomCursor
 
 # MainMenu class to handle the main menu functionality
 class Newsave:
@@ -34,6 +35,7 @@ class Newsave:
         self.shake_start_time = None
         self.elapsed = 0
         self.text = ""
+        self.cursor = CustomCursor()
 
     def run(self):
 
@@ -61,7 +63,9 @@ class Newsave:
 
         DefaultButtons(self.display)
 
-        CursorChanger.change_cursor(self.buttons)
+        self.cursor.update()
+        CursorChanger.change_cursor(self.cursor, self.buttons)
+        self.cursor.draw()
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)

@@ -8,6 +8,7 @@ from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
+from functions.customcursor import CustomCursor
 import assets.assets as a
 
 class Shapes:
@@ -26,6 +27,7 @@ class Shapes:
         self.question = 1
         self.question_start_time = None
         self.used_shapes = []
+        self.cursor = CustomCursor()
 
     def set_data(self, data):
         self.data = data
@@ -108,7 +110,9 @@ class Shapes:
             self.gameStateManager.set_state("categorymenu")
             fade(self.display)
 
-        CursorChanger.change_cursor(self.buttons)
+        self.cursor.update()
+        CursorChanger.change_cursor(self.cursor, self.buttons)
+        self.cursor.draw()
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)

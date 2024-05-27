@@ -2,7 +2,8 @@ import pygame
 import utils.window as window
 from utils.fps import FPS
 from states.mainmenu import MainMenu
-from states.loadsave import Loadsave
+from states.load import Loads
+from states.save import Saves
 from states.newsave import Newsave
 from states.categorymenu import Categorymenu
 from states.stagemenu import Stagemenu
@@ -33,7 +34,8 @@ class Game :
 
         #gamestates to call
         self.mainmenu = MainMenu(self.screen, self.gameStateManager)
-        self.loadsave = Loadsave(self.screen, self.gameStateManager)
+        self.loads = Loads(self.screen, self.gameStateManager)
+        self.saves = Saves(self.screen, self.gameStateManager)
         self.newsave = Newsave(self.screen, self.gameStateManager)
         self.categorymenu = Categorymenu(self.screen, self.gameStateManager)
         self.stagemenu = Stagemenu(self.screen, self.gameStateManager)
@@ -41,7 +43,8 @@ class Game :
 
         #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
-                       "loadsave":self.loadsave,
+                       "loads":self.loads,
+                       "saves":self.saves,
                        "newsave":self.newsave,
                        "categorymenu":self.categorymenu,
                        "stagemenu":self.stagemenu,

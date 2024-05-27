@@ -7,6 +7,7 @@ from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from utils.defaultbutton import DefaultButtons
 from functions.scrollingbg import scroll_bg
+from functions.customcursor import CustomCursor
 
 # MainMenu class to handle the main menu functionality
 class MainMenu:
@@ -23,6 +24,7 @@ class MainMenu:
         self.bg_y = 0
         self.scroll_speed = 0.5
         self.fade_alpha = 255
+        self.cursor = CustomCursor()
 
     def run(self):
         
@@ -45,8 +47,7 @@ class MainMenu:
             self.display.blit(a.textframe, a.textframe_rect)
             text.draw_text("a save file have been\ndetected, would you like to\nload it or not?", (0, 0, 0), width//2, height//2.5, 36, self.display)
             if bi.confirm_button.draw(self.display):
-                self.gameStateManager.set_state("loadsave")
-                self.gameStateManager.set_theme("load")
+                self.gameStateManager.set_state("loads")
                 fade(self.display)
             if bi.unconfirm_button.draw(self.display):
                 self.gameStateManager.set_state("newsave")
@@ -60,8 +61,10 @@ class MainMenu:
 
         if not self.loadcheck:
             DefaultButtons(self.display)
-            
-        CursorChanger.change_cursor(self.buttons)
+        
+        self.cursor.update()
+        CursorChanger.change_cursor(self.cursor, self.buttons)
+        self.cursor.draw()
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)

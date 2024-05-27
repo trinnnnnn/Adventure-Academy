@@ -8,6 +8,7 @@ from functions.transition import *
 import functions.text as text
 import utils.data as data
 from functions.scrollingbg import scroll_bg
+from functions.customcursor import CustomCursor
 
 class Stagemenu:
     def __init__(self, display, gameStateManager):
@@ -21,6 +22,7 @@ class Stagemenu:
         self.shapes = 0
         self.shapes_minigame = ""
         self.shapes_minigame_state = ""
+        self.cursor = CustomCursor()
 
     def run(self):
 
@@ -55,13 +57,14 @@ class Stagemenu:
             text.draw_text("alphabet", (0, 0, 0), width//2, height//2, 50, self.display)
 
         if bi.save_button.draw(self.display):
-            self.gameStateManager.set_theme("save")
-            self.gameStateManager.set_state("loadsave")
+            self.gameStateManager.set_state("save")
             fade(self.display)
 
         DefaultButtons(self.display)
         
-        CursorChanger.change_cursor(self.buttons)
+        self.cursor.update()
+        CursorChanger.change_cursor(self.cursor, self.buttons)
+        self.cursor.draw()
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)

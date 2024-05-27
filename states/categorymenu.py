@@ -9,6 +9,7 @@ import functions.text as text
 import utils.data as data
 from functions.scrollingbg import scroll_bg
 import functions.buttonfunction as bf
+from functions.customcursor import CustomCursor
 
 class Categorymenu:
     def __init__(self, display, gameStateManager):
@@ -42,6 +43,7 @@ class Categorymenu:
         self.alphabet_target_y = self.alphabet_y
         self.buttons = [bi.power_button, bi.save_button]
         self.onbutton = 0
+        self.cursor = CustomCursor()
 
     def run(self):
 
@@ -161,13 +163,14 @@ class Categorymenu:
             self.buttons.append(self.alphabet_button)
 
         if bi.save_button.draw(self.display):
-            self.gameStateManager.set_theme("save")
-            self.gameStateManager.set_state("loadsave")
+            self.gameStateManager.set_state("saves")
             fade(self.display)
 
         DefaultButtons(self.display)
         
-        CursorChanger.change_cursor(self.buttons)
+        self.cursor.update()
+        CursorChanger.change_cursor(self.cursor, self.buttons)
+        self.cursor.draw()
 
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)
