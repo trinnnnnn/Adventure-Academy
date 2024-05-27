@@ -7,5 +7,7 @@ userdata = {
 
 
 shapes = {
-    "circle": a.circle_img,
+    "circle": a.circle,
+    "square": a.square,
+    "rectangle": a.rectangle
 }
