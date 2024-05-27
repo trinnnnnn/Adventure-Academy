@@ -74,7 +74,6 @@ class Loadsave:
         self.s1_target_y = self.s1_y
         self.s2_target_y = self.s2_y
         self.s3_target_y = self.s3_y
-
         self.tint_surface = pygame.Surface((width, height))
         self.tint_surface.set_alpha(128)
         self.tint_surface.fill((0, 0, 0))
