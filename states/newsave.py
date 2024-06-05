@@ -61,7 +61,7 @@ class Newsave:
         self.name, _, self.limit = k.Keypress(self, "categorymenu", self.name, 13, 1.8)
         data.userdata["username"] = self.name
 
-        DefaultButtons(self.display)
+        DefaultButtons(self.display, self.buttons)
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)

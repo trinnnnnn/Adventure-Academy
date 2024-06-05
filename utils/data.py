@@ -2,7 +2,10 @@ import assets.assets as a
 
 userdata = {
     "username" : "",
-    "score" : 0
+    "shapespellingcheck" : False,
+    "shapespelling" : 0,
+    "shapenamingcheck" : False,
+    "shapenaming" : 0,
 }
 
 

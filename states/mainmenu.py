@@ -19,7 +19,8 @@ class MainMenu:
         self.tint_surface = pygame.Surface((width, height))
         self.tint_surface.set_alpha(128)
         self.tint_surface.fill((0, 0, 0))
-        self.buttons = [bi.start_button, bi.power_button]
+        self.dbuttons = None
+        self.buttons = [bi.start_button]
         self.bg_x = 0
         self.bg_y = 0
         self.scroll_speed = 0.5
@@ -60,7 +61,7 @@ class MainMenu:
             self.loadcheck = False
 
         if not self.loadcheck:
-            DefaultButtons(self.display)
+            DefaultButtons(self.display, self.buttons)
         
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)

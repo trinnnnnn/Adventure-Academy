@@ -77,7 +77,6 @@ class Saves:
         self.tint_surface.fill((0, 0, 0))
         self.del_true = False
         self.onbutton = 0
-        self.prev_state = None
         self.warn_text = None
         self.save_num = 0
         self.load = False
@@ -356,12 +355,12 @@ class Saves:
             self.buttons.clear()
             self.buttons.extend({bi.confirm_button, bi.unconfirm_button})
 
-            if not self.confirm:
-                if bi.back_button.draw(self.display):
-                    self.gameStateManager.set_state(self.prev_state)
-                    fade(self.display)
+        if not self.confirm:
+            if bi.back_button.draw(self.display):
+                self.gameStateManager.set_state("categorymenu")
+                fade(self.display)
 
-        DefaultButtons(self.display)
+        DefaultButtons(self.display, self.buttons)
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)

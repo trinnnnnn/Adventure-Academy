@@ -8,7 +8,7 @@ from utils.window import width, height
 start_button = bf.Button(width//2, 550, a.start_img, a.startdown_img, 0.2)
 save_button = bf.Button(1180, 100, a.start_img, a.startdown_img, 0.2)
 confirm_button = bf.Button(400, 500, a.confirm_img, a.confirmdown_img, 0.075)
-confirm2_button = bf.Button(1080, 500, a.confirm_img, a.confirmdown_img, 0.075)
+confirm2_button = bf.Button(1080, 550, a.confirm_img, a.confirmdown_img, 0.075)
 unconfirm_button = bf.Button(880, 500, a.unconfirm_img, a.unconfirmdown_img, 0.075)
 back_button = bf.Button(65, 65, a.back_img, a.backdown_img, 0.14)
 shapes_button = bf.Button(400, 300, a.shapes_img, a.shapesdown_img, 0.65)
@@ -32,4 +32,5 @@ rightarrow_button = bf.Button(950, height//2, a.rightarrow_img, a.rightarrowdown
 play_button = bf.Button(width//2, 600, a.play_img, a.playdown_img, 0.2)
 
 #defaultbuttons
-power_button = bf.Button(65, 635, a.power_img, a.powerdown_img, 0.1)
+settings_button = bf.Button(1230, 670, a.settings_img, a.settingsdown_img, 0.1)
+power_button = bf.Button(1230, 570, a.power_img, a.powerdown_img, 0.1)

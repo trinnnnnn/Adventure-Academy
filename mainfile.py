@@ -7,7 +7,8 @@ from states.save import Saves
 from states.newsave import Newsave
 from states.categorymenu import Categorymenu
 from states.stagemenu import Stagemenu
-from states.shapes import Shapes
+from states.shapespelling import ShapeSpelling
+from states.shapenaming import ShapeNaming
 
 pygame.init()
 
@@ -39,7 +40,8 @@ class Game :
         self.newsave = Newsave(self.screen, self.gameStateManager)
         self.categorymenu = Categorymenu(self.screen, self.gameStateManager)
         self.stagemenu = Stagemenu(self.screen, self.gameStateManager)
-        self.shapes = Shapes(self.screen, self.gameStateManager)
+        self.shapespelling = ShapeSpelling(self.screen, self.gameStateManager)
+        self.shapenaming = ShapeNaming(self.screen, self.gameStateManager)
 
         #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
@@ -48,7 +50,8 @@ class Game :
                        "newsave":self.newsave,
                        "categorymenu":self.categorymenu,
                        "stagemenu":self.stagemenu,
-                       "shapes":self.shapes,
+                       "shapespelling":self.shapespelling,
+                       "shapenaming":self.shapenaming,
                        }
         
     def run(self) :

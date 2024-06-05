@@ -95,7 +95,6 @@ class Categorymenu:
         elif self.alphabet_button.rect.collidepoint(pos) == False and self.onbutton is 3:
             self.onbutton = 0
 
-
         if self.onbutton == 1:
             self.shapes_target_size = 1.2
             self.shapes_target_x = width // 2
@@ -149,7 +148,7 @@ class Categorymenu:
         self.alphabet_size = self.lerp(self.alphabet_size, self.alphabet_target_size, 0.1)
         self.alphabet_x = self.lerp(self.alphabet_x, self.alphabet_target_x, 0.1)
         self.alphabet_y = self.lerp(self.alphabet_y, self.alphabet_target_y, 0.1)
-        
+
         # Update shapes_button with the new size and position
         self.shapes_button = bf.Button(self.shapes_x, self.shapes_y, a.shapes_img, a.shapesdown_img, self.shapes_size)
         self.colours_button = bf.Button(self.colours_x, self.colours_y, a.colours_img, a.coloursdown_img, self.colours_size)
@@ -166,8 +165,8 @@ class Categorymenu:
             self.gameStateManager.set_state("saves")
             fade(self.display)
 
-        DefaultButtons(self.display)
-        
+        DefaultButtons(self.display, self.buttons)
+
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)
         self.cursor.draw()
