@@ -30,7 +30,14 @@ play3_button = bf.Button(900, height//2, a.play3_img, a.play3down_img, 0.1)
 leftarrow_button = bf.Button(330, height//2, a.leftarrow_img, a.leftarrowdown_img, 0.08)
 rightarrow_button = bf.Button(950, height//2, a.rightarrow_img, a.rightarrowdown_img, 0.08)
 play_button = bf.Button(width//2, 600, a.play_img, a.playdown_img, 0.2)
+choose1_button = bf.Button(300, 620, a.choose_img, a.choosedown_img, 0.04)
+choose2_button = bf.Button(300, 480, a.choose_img, a.choosedown_img, 0.04)
+choose3_button = bf.Button(700, 620, a.choose_img, a.choosedown_img, 0.04)
+choose4_button = bf.Button(700, 480, a.choose_img, a.choosedown_img, 0.04)
+
 
 #defaultbuttons
 settings_button = bf.Button(1230, 670, a.settings_img, a.settingsdown_img, 0.1)
-power_button = bf.Button(1230, 570, a.power_img, a.powerdown_img, 0.1)
+power_button = bf.Button(1230, 590, a.power_img, a.powerdown_img, 0.1)
+fs_button = bf.Button(1230, 510, a.fullscreen_img, a.fullscreen_img, 0.05)
+min_button = bf.Button(1230, 510, a.minimize_img, a.minimize_img, 0.05)

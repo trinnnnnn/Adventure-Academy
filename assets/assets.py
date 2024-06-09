@@ -74,11 +74,18 @@ settings_img = pygame.image.load("assets/images/buttons/settings.png").convert_a
 settingsdown_img = pygame.image.load("assets/images/buttons/settingsdown.png").convert_alpha()
 choose_img = pygame.image.load("assets/images/buttons/choose.png").convert_alpha()
 choosedown_img = pygame.image.load("assets/images/buttons/choosedown.png").convert_alpha()
+fullscreen_img = pygame.image.load("assets/images/buttons/fullscreenbutton.png").convert_alpha()
+minimize_img = pygame.image.load("assets/images/buttons/minimizebutton.png").convert_alpha()
 
 #shapes
 circle_original = pygame.image.load("assets/images/shapes/circle.png").convert_alpha()
 square_original = pygame.image.load("assets/images/shapes/square.png").convert_alpha()
 rectangle_original = pygame.image.load("assets/images/shapes/rectangle.png").convert_alpha()
+star_original = pygame.image.load("assets/images/shapes/star.png").convert_alpha()
+pentagon_original = pygame.image.load("assets/images/shapes/pentagon.png").convert_alpha()
+diamond_original = pygame.image.load("assets/images/shapes/diamond.png").convert_alpha()
+oval_original = pygame.image.load("assets/images/shapes/oval.png").convert_alpha()
+triangle_original = pygame.image.load("assets/images/shapes/triangle.png").convert_alpha()
 
 #shapes scaling
 circle = pygame.transform.scale(circle_original, (int(circle_original.get_width() * 0.4), int(circle_original.get_height() * 0.4))).convert_alpha()
@@ -87,6 +94,16 @@ square = pygame.transform.scale(square_original, (int(square_original.get_width(
 square_rect = square.get_rect()
 rectangle = pygame.transform.scale(rectangle_original, (int(rectangle_original.get_width() * 0.4), int(rectangle_original.get_height() * 0.4))).convert_alpha()
 rectangle_rect = rectangle.get_rect()
+star = pygame.transform.scale(star_original, (int(star_original.get_width() * 0.4), int(star_original.get_height() * 0.4))).convert_alpha()
+star_rect = star.get_rect()
+pentagon = pygame.transform.scale(pentagon_original, (int(pentagon_original.get_width() * 0.4), int(pentagon_original.get_height() * 0.4))).convert_alpha()
+pentagon_rect = pentagon.get_rect()
+oval = pygame.transform.scale(oval_original, (int(oval_original.get_width() * 0.4), int(oval_original.get_height() * 0.4))).convert_alpha()
+oval_rect = oval.get_rect()
+diamond = pygame.transform.scale(diamond_original, (int(diamond_original.get_width() * 0.4), int(diamond_original.get_height() * 0.4))).convert_alpha()
+diamond_rect = diamond.get_rect()
+triangle = pygame.transform.scale(triangle_original, (int(triangle_original.get_width() * 0.4), int(triangle_original.get_height() * 0.4))).convert_alpha()
+triangle_rect = triangle.get_rect()
 
 #utility
 textframe_original = pygame.image.load("assets/images/util/textframe.png").convert_alpha()
@@ -99,6 +116,7 @@ zerostars_original = pygame.image.load("assets/images/util/zerostars.png").conve
 onestars_original = pygame.image.load("assets/images/util/onestars.png").convert_alpha()
 twostars_original = pygame.image.load("assets/images/util/twostars.png").convert_alpha()
 threestars_original = pygame.image.load("assets/images/util/threestars.png").convert_alpha()
+shapebox_original = pygame.image.load("assets/images/util/shapebox.png").convert_alpha()
 
 #utility scaling
 textframe = pygame.transform.scale(textframe_original, (int(textframe_original.get_width() * 0.33), int(textframe_original.get_height() * 0.33))).convert_alpha()

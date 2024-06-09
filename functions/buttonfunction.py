@@ -1,45 +1,45 @@
-# import pygame module and button click sound module
 import pygame
 
-# button class definition
-class Button():
+class Button:
     def __init__(self, x, y, imagedefault, imageclicked, scale):
-        # set dimensions of the button images
-        width = imageclicked.get_width()
-        height = imageclicked.get_height()
+        self.imagedefault = imagedefault
+        self.imageclicked = imageclicked
+        self.scale = scale
 
-        # scale button images
-        self.imagedefault = pygame.transform.scale(imagedefault, (int(width * scale), int(height * scale)))
-        self.imageclicked = pygame.transform.scale(imageclicked, (int(width * scale), int(height * scale)))
-
-        # initialize button state and position
-        self.image = self.imagedefault
+        self.image = pygame.transform.scale(imagedefault, (int(imagedefault.get_width() * scale), int(imagedefault.get_height() * scale)))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.clicked = False
+        self.x = x
+        self.y = y
+        self.size = scale
 
-    def draw(self, screen, sound=True):
+    def draw(self, screen):
         action = False
         pos = pygame.mouse.get_pos()
 
-        # Ensure button state is reset when not clicked
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
-            self.image = self.imagedefault
+            self.image = pygame.transform.scale(self.imagedefault, (int(self.imagedefault.get_width() * self.size), int(self.imagedefault.get_height() * self.size)))
 
-        # Handle button click
         if self.rect.collidepoint(pos):
-            self.image = self.imageclicked
+            self.image = pygame.transform.scale(self.imageclicked, (int(self.imageclicked.get_width() * self.size), int(self.imageclicked.get_height() * self.size)))
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
-                if sound:
-                    pass  # Play button click sound
                 action = True
                 self.clicked = True
-            elif pygame.mouse.get_pressed()[0] == 0:
-                self.clicked = False
 
         screen.blit(self.image, (self.rect.x, self.rect.y))
         return action
+    
+    def update(self):
+        self.image = pygame.transform.scale(self.imagedefault, (int(self.imagedefault.get_width() * self.size), int(self.imagedefault.get_height() * self.size)))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+
+    def change_image(self, imagedefault, imageclicked):
+        self.imagedefault = imagedefault
+        self.imageclicked = imageclicked
+        self.image = pygame.transform.scale(imagedefault, (int(imagedefault.get_width() * self.size), int(imagedefault.get_height() * self.size)))
 
 class CursorChanger:
     @staticmethod

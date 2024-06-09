@@ -9,6 +9,7 @@ from states.categorymenu import Categorymenu
 from states.stagemenu import Stagemenu
 from states.shapespelling import ShapeSpelling
 from states.shapenaming import ShapeNaming
+from states.shapematching import ShapeMatching
 
 pygame.init()
 
@@ -42,6 +43,7 @@ class Game :
         self.stagemenu = Stagemenu(self.screen, self.gameStateManager)
         self.shapespelling = ShapeSpelling(self.screen, self.gameStateManager)
         self.shapenaming = ShapeNaming(self.screen, self.gameStateManager)
+        self.shapematching = ShapeMatching(self.screen, self.gameStateManager)
 
         #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
@@ -52,10 +54,11 @@ class Game :
                        "stagemenu":self.stagemenu,
                        "shapespelling":self.shapespelling,
                        "shapenaming":self.shapenaming,
+                       "shapematching":self.shapematching
                        }
         
     def run(self) :
-        
+
         while True :
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -72,18 +75,31 @@ class Game :
 class GameStateManager :
         def __init__(self, currentState) :
             self.currentState = currentState
-            
+            self.previousState = None
+
         def get_state(self) :
             return self.currentState
-        
+
         def set_state(self, state) :
             self.currentState = state
 
+        def has_state_changed(self):
+            state_changed = self.previousState != self.currentState
+            if state_changed:
+                self.previousState = self.currentState
+            return state_changed
+
         def get_theme(self):
             return self.theme
-        
+
         def set_theme(self, value):
             self.theme = value
+
+        def get_savefile(self):
+            return self.savefile
+        
+        def set_savefile(self, value):
+            self.savefile = value
 
 if __name__ == "__main__":
     p = Game()

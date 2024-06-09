@@ -1,39 +1,38 @@
-import time
 import pygame
 from functions.transition import fade
 
-error_start = 0
-error = False  # Define error variable outside the function
+current_key_pressed = []
 
-def Keypress(self, state, text, max_len, error_duration=0):
-    global error_start, error  # Access the global error variable
+backspace_timer = 0
+backspace_delay = 100
+
+def Keypress(self, state, text, max_len):
+    global current_key_pressed, backspace_timer
+
     return_pressed = False
     keys = pygame.key.get_pressed()
-    keypress_delay = 220
 
-    if keys[pygame.K_BACKSPACE] and pygame.time.get_ticks() - self.last_keypress_time >= keypress_delay:
-        text = text[:-1]
-        self.last_keypress_time = pygame.time.get_ticks()
+    if keys[pygame.K_BACKSPACE]:
+        if pygame.time.get_ticks() - backspace_timer >= backspace_delay:
+            text = text[:-1]
+            backspace_timer = pygame.time.get_ticks()
 
     if max_len is None or max_len > len(text):
         for i in range(pygame.K_a, pygame.K_z + 1):
             if keys[i]:
-                if pygame.time.get_ticks() - self.last_keypress_time >= keypress_delay:
+                if chr(i) not in current_key_pressed:
+                    current_key_pressed.clear()
                     text += chr(i)
-                    self.last_keypress_time = pygame.time.get_ticks()
+                    current_key_pressed.append(chr(i))
+
         for i in range(pygame.K_0, pygame.K_9 + 1):
             if keys[i]:
-                if pygame.time.get_ticks() - self.last_keypress_time >= keypress_delay:
+                if chr(i) not in current_key_pressed:
                     text += chr(i)
-                    self.last_keypress_time = pygame.time.get_ticks()
-    elif any(keys) and max_len == len(text):
-        error = True  # Set error to True
-        if error_start == 0:
-            error_start = time.time()
+                    current_key_pressed.append(chr(i))
 
-    if error and time.time() - error_start >= error_duration:
-        error = False
-        error_start = 0
+    if not any(keys[i] for i in range(len(keys))):
+        current_key_pressed.clear()
 
     if keys[pygame.K_RETURN]:
         return_pressed = True
@@ -41,4 +40,4 @@ def Keypress(self, state, text, max_len, error_duration=0):
             self.gameStateManager.set_state(state)
             fade(self.display)
     
-    return text, return_pressed, error  # Return error variable as well
+    return text, return_pressed

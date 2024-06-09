@@ -4,6 +4,7 @@ import functions.buttoninstance as bi
 import functions.text as text
 import functions.keypress as k
 import assets.assets as a
+import utils.defaultbutton as df
 from utils.window import width, height
 from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
@@ -30,6 +31,7 @@ class ShapeSpelling:
         self.question = 1
         self.confirm = False
         self.question_start_time = None
+        self.return_pressed = False
         self.used_shapes = []
         self.cursor = CustomCursor()
 
@@ -68,7 +70,7 @@ class ShapeSpelling:
             self.display.blit(a.textframe, a.textframe_rect)
             a.pleaseread_rect.center = width//2, 150
             self.display.blit(a.pleaseread, a.pleaseread_rect)
-            text.draw_text("Type the name of the\nshape using your keyboard\nand press the green button\nto confirm your answer", (0, 0, 0), width//2, 300, 35, self.display)
+            text.draw_text("Type the name of the\nshape using your keyboard\nand press the green button \nor enter key\nto confirm your answer", (0, 0, 0), width//2, 280, 35, self.display)
             text.draw_text("...press your left mousebutton to continue...", (0, 0, 0), width//2, 550, 20, self.display)
 
         if self.confirm:
@@ -76,10 +78,10 @@ class ShapeSpelling:
             a.textinputframe_rect.center = width//2, 550
             self.display.blit(a.textinputframe, a.textinputframe_rect)
             text.draw_text(self.answer, (0, 0, 0), width//2, 550, 50, self.display)
-            self.answer, _, _ = k.Keypress(self, None, self.answer, None)
             database.userdata["shapespellingcheck"] = True
+            self.answer, self.return_pressed = k.Keypress(self, None, self.answer, None)
 
-            if bi.confirm2_button.draw(self.display):
+            if bi.confirm2_button.draw(self.display) or self.return_pressed:
                 if self.answer == self.data_name:
                     self.score += 1
                 self.question +=1
@@ -125,6 +127,11 @@ class ShapeSpelling:
                 self.gameStateManager.set_state("stagemenu")
                 fade(self.display)
                 self.score = 0
+
+            df.DefaultButtons(self.display, self.buttons)
+            if self.gameStateManager.has_state_changed():
+                if df.settings:
+                    df.settings = False
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)
