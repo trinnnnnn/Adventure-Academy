@@ -1,0 +1,66 @@
+import random
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the screen
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Shape Mini-Games")
+
+# Define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Define shapes
+circle_img = pygame.image.load("circle.png")
+square_img = pygame.image.load("square.png")
+triangle_img = pygame.image.load("triangle.png")
+
+# Game loop
+def main():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+# Shape identification game
+def shape_identification():
+    shapes = [circle_img, square_img, triangle_img]
+    random_shape = random.choice(shapes)
+    screen.blit(random_shape, (WIDTH // 2 - 50, HEIGHT // 2 - 50))
+    pygame.display.update()
+    pygame.time.delay(2000)
+    screen.fill(WHITE)
+    pygame.display.update()
+
+# Shape drawing game
+def shape_drawing():
+    shapes = [circle_img, square_img, triangle_img]
+    random_shape = random.choice(shapes)
+    screen.blit(random_shape, (WIDTH // 2 - 50, HEIGHT // 2 - 50))
+    pygame.display.update()
+
+# Memory matching game
+def memory_matching():
+    shapes = [circle_img, square_img, triangle_img]
+    random_shapes = random.choices(shapes, k=4)
+    random_shapes.extend(random_shapes)
+    random.shuffle(random_shapes)
+
+    # Display shapes
+    for i, shape in enumerate(random_shapes):
+        x = (i % 4) * 100 + 50
+        y = (i // 4) * 100 + 50
+        screen.blit(shape, (x, y))
+    pygame.display.update()
+    pygame.time.delay(2000)
+    screen.fill(WHITE)
+    pygame.display.update()
+
+# Run the games
+if __name__ == "__main__":
+    main()
