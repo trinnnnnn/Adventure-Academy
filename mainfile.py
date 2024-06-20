@@ -10,6 +10,8 @@ from states.stagemenu import Stagemenu
 from states.shapespelling import ShapeSpelling
 from states.shapenaming import ShapeNaming
 from states.shapematching import ShapeMatching
+import utils.defaultbutton as df
+from functions.saveloadmanager import *
 
 pygame.init()
 
@@ -67,6 +69,16 @@ class Game :
             self.screen.fill((0, 0, 0))
 
             self.states[self.gameStateManager.get_state()].run()
+
+            if df.autosave:
+                Save(data.userdata, "saveauto")
+
+            if self.gameStateManager.has_state_changed():
+                    if df.autosave:
+                        Save(data.userdata, "saveauto")
+                    if df.settings:
+                        df.settings = False
+                        
 
             pygame.display.flip()
 

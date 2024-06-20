@@ -2,12 +2,12 @@ import assets.assets as a
 
 userdata = {
     "username" : "",
-    "shapespellingcheck" : False,
-    "shapespelling" : 0,
     "shapenamingcheck" : False,
     "shapenaming" : 0,
     "shapematchingcheck" : False,
     "shapematching" : 0,
+    "shapespellingcheck" : False,
+    "shapespelling" : 0,
 }
 
 

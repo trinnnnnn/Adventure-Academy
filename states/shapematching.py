@@ -214,10 +214,7 @@ class ShapeMatching:
             self.drag_and_drop_randomizer()
         
             df.DefaultButtons(self.display, self.buttons)
-            if self.gameStateManager.has_state_changed():
-                if df.settings:
-                    df.settings = False
-                    
+
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)
         self.cursor.draw()

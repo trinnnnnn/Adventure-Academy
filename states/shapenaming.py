@@ -10,6 +10,7 @@ from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
 from functions.customcursor import CustomCursor
+from functions.floatanim import FloatAnim
 
 class ShapeNaming:
     def __init__(self, display, gameStateManager):
@@ -32,6 +33,8 @@ class ShapeNaming:
         self.question_start_time = None
         self.used_shapes = []
         self.cursor = CustomCursor()
+        self.mouseclick_delay = pygame.time.get_ticks()
+        self.float_anim = FloatAnim(0.01, 12)
 
     def set_data(self, data):
         self.data = data
@@ -69,15 +72,17 @@ class ShapeNaming:
         self.confirm = False
         self.data_randomized = False
 
-
     def run(self):
         self.set_data(database.shapes)
         if not self.data_randomized:
             self.data_randomizer(self.data)
             self.data_randomized = True
 
+        current_time = pygame.time.get_ticks()
+
         if pygame.mouse.get_pressed()[0] and self.confirm is False:
-            self.confirm = True
+            if current_time - self.mouseclick_delay >= 1000:
+                self.confirm = True
 
         self.bg_x, self.bg_y = scroll_bg(self.display, a.unscroll_bg, self.bg_x, self.bg_y, self.scroll_speed)
 
@@ -90,13 +95,14 @@ class ShapeNaming:
                 self.buttons.remove(bi.choose3_button)
             if bi.choose4_button in self.buttons:
                 self.buttons.remove(bi.choose4_button)
+            self.float_offset = self.float_anim.update()
             self.display.blit(self.tint_surface,(0, 0))
-            a.textframe_rect.center = width//2, height//2
+            a.textframe_rect.center = width//2, height//2 + self.float_offset
             self.display.blit(a.textframe, a.textframe_rect)
-            a.pleaseread_rect.center = width//2, 150
+            a.pleaseread_rect.center = width//2, 150 + self.float_offset
             self.display.blit(a.pleaseread, a.pleaseread_rect)
-            text.draw_text("choose the correct name\nof the shape displayed\nfrom the given options", (0, 0, 0), width//2, 300, 35, self.display)
-            text.draw_text("...press your left mousebutton to continue...", (0, 0, 0), width//2, 550, 20, self.display)
+            text.draw_text("choose the correct name\nof the shape displayed\nfrom the given options", (0, 0, 0), width//2, 300 + self.float_offset, 35, self.display)
+            text.draw_text("...press your left mousebutton to continue...", (0, 0, 0), width//2, 550 + self.float_offset, 20, self.display)
 
         if self.confirm:
             if bi.choose1_button not in self.buttons:
@@ -136,9 +142,6 @@ class ShapeNaming:
                 self.score = 0
 
             df.DefaultButtons(self.display, self.buttons)
-            if self.gameStateManager.has_state_changed():
-                if df.settings:
-                    df.settings = False
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)

@@ -91,12 +91,12 @@ class ShapeSpelling:
                 self.answer = ""
                 self.fade_alpha = 255
 
-            if self.question is 1:
+            if self.question == 1:
                 self.data_rect = self.current_shape.get_rect()
                 self.data_rect.center = width//2, 300
                 self.display.blit(self.current_shape, self.data_rect)
 
-            if self.question is 2:
+            if self.question == 2:
                 current_time = pygame.time.get_ticks()
                 if self.question_start_time is None:
                     self.question_start_time = current_time
@@ -109,7 +109,7 @@ class ShapeSpelling:
                 self.data_rect.center = width//2, 300
                 self.display.blit(self.current_shape, self.data_rect)
 
-            if self.question is 3:
+            if self.question == 3:
                 current_time = pygame.time.get_ticks()
                 if self.question_start_time is None:
                     self.question_start_time = current_time
@@ -122,16 +122,13 @@ class ShapeSpelling:
                 self.data_rect.center = width//2, 300
                 self.display.blit(self.current_shape, self.data_rect)
 
-            if self.question is 4:
+            if self.question == 4:
                 database.userdata["shapespelling"] = self.score
                 self.gameStateManager.set_state("stagemenu")
                 fade(self.display)
                 self.score = 0
 
             df.DefaultButtons(self.display, self.buttons)
-            if self.gameStateManager.has_state_changed():
-                if df.settings:
-                    df.settings = False
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)

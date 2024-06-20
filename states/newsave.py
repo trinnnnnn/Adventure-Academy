@@ -5,7 +5,7 @@ import functions.text as text
 import utils.data as data
 import assets.assets as a
 import utils.defaultbutton as df
-from utils.window import width, height
+from utils.window import width
 from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
@@ -37,9 +37,25 @@ class Newsave:
         self.text = "Enter your name"
         self.limit_start_time = 0
         self.cursor = CustomCursor()
+        self.resetcheck = False
+
+    def reset(self):
+        self.name = ""
+        self.namecheck = ""
+        data.userdata["username"] = ""
+        data.userdata["shapenamingcheck"] = False
+        data.userdata["shapenaming"] = 0
+        data.userdata["shapematchingcheck"] = False
+        data.userdata["shapematching"] = 0
+        data.userdata["shapespellingcheck"] = False
+        data.userdata["shapespelling"] = 0
 
     def run(self):
         self.bg_x, self.bg_y = scroll_bg(self.display, a.unscroll_bg, self.bg_x, self.bg_y, self.scroll_speed)
+
+        if self.resetcheck is False:
+            self.reset()
+            self.resetcheck = True
 
         if bi.start_button.draw(self.display) or self.return_pressed:
             if len(self.name) == 0:
@@ -76,11 +92,7 @@ class Newsave:
 
         data.userdata["username"] = self.name
 
-        df.DefaultButtons(self.display, self.buttons)
-
-        if self.gameStateManager.has_state_changed():
-            if df.settings:
-                df.settings = False
+        df.DefaultButtons(self.display, self.buttons, False)
 
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)
@@ -89,3 +101,7 @@ class Newsave:
         if self.fade_alpha > 0:
             fadein(self.display, self.fade_alpha)
             self.fade_alpha -= 5
+
+        if self.gameStateManager.get_state() != "newsave":
+            self.fade_alpha = 255
+            self.resetcheck = False

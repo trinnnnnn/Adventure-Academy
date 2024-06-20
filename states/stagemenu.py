@@ -9,6 +9,7 @@ import functions.text as text
 import utils.data as data
 from functions.scrollingbg import scroll_bg
 from functions.customcursor import CustomCursor
+from functions.floatanim import FloatAnim
 
 class Stagemenu:
     def __init__(self, display, gameStateManager):
@@ -23,6 +24,18 @@ class Stagemenu:
         self.shapes_minigame = ""
         self.shapes_minigame_state = ""
         self.cursor = CustomCursor()
+        self.float_anim = FloatAnim(0.01, 10)
+
+    def scorecheck(self, score):
+        a.zerostars_rect.center = width//2, 450
+        if data.userdata[score] == 0:
+            self.display.blit(a.zerostars, a.zerostars_rect)
+        if data.userdata[score] == 1:
+            self.display.blit(a.onestars, a.zerostars_rect)
+        if data.userdata[score] == 2:
+            self.display.blit(a.twostars, a.zerostars_rect)
+        if data.userdata[score] == 3:
+            self.display.blit(a.threestars, a.zerostars_rect)
 
     def run(self):
 
@@ -33,68 +46,44 @@ class Stagemenu:
             fade(self.display)
 
         if self.gameStateManager.get_theme() == "shapes" :
-            a.textframe3_rect.center = width//2, height//2
+            self.float_offset = self.float_anim.update()
+            a.textframe3_rect.center = width//2, height//2 + self.float_offset
             self.display.blit(a.textframe3, a.textframe3_rect)
-            a.shapes_rect.center = width//2, 210
+            a.shapes_rect.center = width//2, 210 + self.float_offset
             self.display.blit(a.shapes, a.shapes_rect)
-            text.draw_text(self.shapes_minigame, (0, 0, 0), width//2, height//2, 70, self.display)
+            text.draw_text(self.shapes_minigame, (0, 0, 0), width//2, height//2 + self.float_offset, 70, self.display)
             if bi.play_button.draw(self.display):
                 self.gameStateManager.set_state(self.shapes_minigame_state)
                 fade(self.display)
-            if self.shapes is 0:
-                if data.userdata["shapespellingcheck"] is True:
-                    a.zerostars_rect.center = width//2, 450
-                    if data.userdata["shapespelling"] is 0:
-                        self.display.blit(a.zerostars, a.zerostars_rect)
-                    if data.userdata["shapespelling"] is 1:
-                        self.display.blit(a.onestars, a.zerostars_rect)
-                    if data.userdata["shapespelling"] is 2:
-                        self.display.blit(a.twostars, a.zerostars_rect)
-                    if data.userdata["shapespelling"] is 3:
-                        self.display.blit(a.threestars, a.zerostars_rect)
+            if self.shapes == 0:
+                if data.userdata["shapenamingcheck"] is True:
+                    self.scorecheck("shapenaming")
                 if bi.leftarrow_button in self.buttons:
                     self.buttons.remove(bi.leftarrow_button)
                 if bi.rightarrow_button not in self.buttons:
                     self.buttons.append(bi.rightarrow_button)
-                self.shapes_minigame = "spelling"
-                self.shapes_minigame_state = "shapespelling"
-            if self.shapes is 1:
-                if data.userdata["shapenamingcheck"] is True:
-                    a.zerostars_rect.center = width//2, 450
-                    if data.userdata["shapenaming"] is 0:
-                        self.display.blit(a.zerostars, a.zerostars_rect)
-                    if data.userdata["shapenaming"] is 1:
-                        self.display.blit(a.onestars, a.zerostars_rect)
-                    if data.userdata["shapenaming"] is 2:
-                        self.display.blit(a.twostars, a.zerostars_rect)
-                    if data.userdata["shapenaming"] is 3:
-                        self.display.blit(a.threestars, a.zerostars_rect)
-                if bi.rightarrow_button is not self.buttons:
+                self.shapes_minigame = "naming"
+                self.shapes_minigame_state = "shapenaming"
+            if self.shapes == 1:
+                if data.userdata["shapematchingcheck"] is True:
+                    self.scorecheck("shapematching")
                     self.buttons.append(bi.rightarrow_button)
                 if bi.leftarrow_button not in self.buttons:
                     self.buttons.append(bi.leftarrow_button)
-                self.shapes_minigame = "naming"
-                self.shapes_minigame_state = "shapenaming"
-            if self.shapes is 2:
-                if data.userdata["shapematchingcheck"] is True:
-                    a.zerostars_rect.center = width//2, 450
-                    if data.userdata["shapematching"] is 0:
-                        self.display.blit(a.zerostars, a.zerostars_rect)
-                    if data.userdata["shapematching"] is 1:
-                        self.display.blit(a.onestars, a.zerostars_rect)
-                    if data.userdata["shapematching"] is 2:
-                        self.display.blit(a.twostars, a.zerostars_rect)
-                    if data.userdata["shapematching"] is 3:
-                        self.display.blit(a.threestars, a.zerostars_rect)
-                if bi.rightarrow_button in self.buttons:
-                    self.buttons.remove(bi.rightarrow_button)
                 self.shapes_minigame = "matching"
                 self.shapes_minigame_state = "shapematching"
+            if self.shapes == 2:
+                if data.userdata["shapespellingcheck"] is True:
+                    self.scorecheck("shapespelling")
+                if bi.rightarrow_button in self.buttons:
+                    self.buttons.remove(bi.rightarrow_button)
+                self.shapes_minigame = "spelling"
+                self.shapes_minigame_state = "shapespelling"
 
             if self.shapes > 0:
                 if bi.leftarrow_button.draw(self.display):
                     self.shapes -= 1
-            if self.shapes is not 2:
+            if self.shapes != 2:
                 if bi.rightarrow_button.draw(self.display):
                     self.shapes += 1
 
@@ -110,10 +99,6 @@ class Stagemenu:
 
         df.DefaultButtons(self.display, self.buttons)
 
-        if self.gameStateManager.has_state_changed():
-            if df.settings:
-                df.settings = False
-
         self.cursor.update()
         CursorChanger.change_cursor(self.cursor, self.buttons)
         self.cursor.draw()
@@ -122,5 +107,5 @@ class Stagemenu:
             fadein(self.display, self.fade_alpha)
             self.fade_alpha -= 5 
 
-        if self.gameStateManager.get_state() is not "stagemenu":
+        if self.gameStateManager.get_state() != "stagemenu":
             self.fade_alpha = 255

@@ -20,6 +20,7 @@ emptyslot3_button = bf.Button(900, height//2, a.emptyslot3_img, a.emptyslot3down
 slot1_button = bf.Button(380, height//2, a.slot1_img, a.slot1down_img, 0.65)
 slot2_button = bf.Button(width//2, height//2, a.slot2_img, a.slot2down_img, 0.65)
 slot3_button = bf.Button(900, height//2, a.slot3_img, a.slot3down_img, 0.65)
+autoslot_button = bf.Button(980, 530, a.autosave_img, a.autosavedown_img, 0.8)
 save_button = bf.Button(1215, 65, a.save_img, a.savedown_img, 0.16)
 delete1_button = bf.Button(380, height//2, a.delete1_img, a.delete1down_img, 0.1)
 delete2_button = bf.Button(width//2, height//2, a.delete2_img, a.delete2down_img, 0.1)
@@ -35,9 +36,10 @@ choose2_button = bf.Button(300, 480, a.choose_img, a.choosedown_img, 0.04)
 choose3_button = bf.Button(700, 620, a.choose_img, a.choosedown_img, 0.04)
 choose4_button = bf.Button(700, 480, a.choose_img, a.choosedown_img, 0.04)
 
-
 #defaultbuttons
 settings_button = bf.Button(1230, 670, a.settings_img, a.settingsdown_img, 0.1)
 power_button = bf.Button(1230, 590, a.power_img, a.powerdown_img, 0.1)
 fs_button = bf.Button(1230, 510, a.fullscreen_img, a.fullscreen_img, 0.05)
 min_button = bf.Button(1230, 510, a.minimize_img, a.minimize_img, 0.05)
+asoff_button = bf.Button(1230, 430, a.autosaveoff_img, a.autosaveoff_img, 0.1)
+ason_button = bf.Button(1230, 430, a.autosaveon_img, a.autosaveon_img, 0.1)

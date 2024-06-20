@@ -76,6 +76,10 @@ choose_img = pygame.image.load("assets/images/buttons/choose.png").convert_alpha
 choosedown_img = pygame.image.load("assets/images/buttons/choosedown.png").convert_alpha()
 fullscreen_img = pygame.image.load("assets/images/buttons/fullscreenbutton.png").convert_alpha()
 minimize_img = pygame.image.load("assets/images/buttons/minimizebutton.png").convert_alpha()
+autosaveoff_img = pygame.image.load("assets/images/buttons/autosaveoff.png").convert_alpha()
+autosaveon_img = pygame.image.load("assets/images/buttons/autosaveon.png").convert_alpha()
+autosave_img = pygame.image.load("assets/images/buttons/autosave.png").convert_alpha()
+autosavedown_img = pygame.image.load("assets/images/buttons/autosavedown.png").convert_alpha()
 
 #shapes
 circle_original = pygame.image.load("assets/images/shapes/circle.png").convert_alpha()
@@ -117,6 +121,7 @@ onestars_original = pygame.image.load("assets/images/util/onestars.png").convert
 twostars_original = pygame.image.load("assets/images/util/twostars.png").convert_alpha()
 threestars_original = pygame.image.load("assets/images/util/threestars.png").convert_alpha()
 shapebox_original = pygame.image.load("assets/images/util/shapebox.png").convert_alpha()
+logo_original = pygame.image.load("assets/images/util/logo.png").convert_alpha()
 
 #utility scaling
 textframe = pygame.transform.scale(textframe_original, (int(textframe_original.get_width() * 0.33), int(textframe_original.get_height() * 0.33))).convert_alpha()
@@ -165,3 +170,5 @@ twostars = pygame.transform.scale(twostars_original, (int(twostars_original.get_
 twostars_rect = twostars.get_rect()
 threestars = pygame.transform.scale(threestars_original, (int(threestars_original.get_width() * 0.15), int(threestars_original.get_height() * 0.15))).convert_alpha()
 threestars_rect = threestars.get_rect()
+logo = pygame.transform.scale(logo_original, (int(logo_original.get_width() * 0.8), int(logo_original.get_height() * 0.8))).convert_alpha()
+logo_rect = logo.get_rect()
