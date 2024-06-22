@@ -11,13 +11,13 @@ from states.shapespelling import ShapeSpelling
 from states.shapenaming import ShapeNaming
 from states.shapematching import ShapeMatching
 import utils.defaultbutton as df
+import functions.music as m
 from functions.saveloadmanager import *
 
 pygame.init()
 
 pygame.mixer.init()
 
-#creating window, caption, and icon
 caption = window.caption
 screen = window.screen
 
@@ -27,16 +27,12 @@ class Game :
     def __init__(self) :
         pygame.init()
 
-        #screen width and height
         self.screen = screen
 
-        #fps
         self.clock = pygame.time.Clock()
 
-        #starting gamestate
         self.gameStateManager = GameStateManager("mainmenu")
 
-        #gamestates to call
         self.mainmenu = MainMenu(self.screen, self.gameStateManager)
         self.loads = Loads(self.screen, self.gameStateManager)
         self.saves = Saves(self.screen, self.gameStateManager)
@@ -47,7 +43,6 @@ class Game :
         self.shapenaming = ShapeNaming(self.screen, self.gameStateManager)
         self.shapematching = ShapeMatching(self.screen, self.gameStateManager)
 
-        #gamestate dictionary
         self.states = {"mainmenu":self.mainmenu,
                        "loads":self.loads,
                        "saves":self.saves,
@@ -58,7 +53,7 @@ class Game :
                        "shapenaming":self.shapenaming,
                        "shapematching":self.shapematching
                        }
-        
+
     def run(self) :
 
         while True :
@@ -70,6 +65,8 @@ class Game :
 
             self.states[self.gameStateManager.get_state()].run()
 
+            m.background_music()
+
             if df.autosave:
                 Save(data.userdata, "saveauto")
 
@@ -78,7 +75,6 @@ class Game :
                         Save(data.userdata, "saveauto")
                     if df.settings:
                         df.settings = False
-                        
 
             pygame.display.flip()
 
@@ -109,7 +105,7 @@ class GameStateManager :
 
         def get_savefile(self):
             return self.savefile
-        
+
         def set_savefile(self, value):
             self.savefile = value
 

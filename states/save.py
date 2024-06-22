@@ -15,7 +15,7 @@ class Saves:
     def __init__(self, display, gameStateManager):
         self.display = display
         self.gameStateManager = gameStateManager
-        self.buttons = [bi.power_button, bi.back_button]
+        self.buttons = []
         self.bg_x = 0
         self.bg_y = 0
         self.scroll_speed = 0.5
@@ -99,6 +99,16 @@ class Saves:
         self.autosaveclick = False
         self.corrupt = False
 
+    def lerp(self, start, end, t):
+        return start + t * (end - start)
+
+    def update_button(self, button, target):
+        size, x, y = target
+        button.size = self.lerp(button.size, size, 0.1)
+        button.x = self.lerp(button.x, x, 0.1)
+        button.y = self.lerp(button.y, y, 0.1)
+        button.update()
+
     def run(self):
         offset = 0
 
@@ -115,6 +125,11 @@ class Saves:
 
         a.textframe_rect.center = width//2, height//2
         self.display.blit(a.textframe, a.textframe_rect)
+        a.loadsavetext_rect.center = width // 2, 140
+        self.display.blit(a.loadsavetext, a.loadsavetext_rect)
+
+        if bi.back_button not in self.buttons:
+            self.buttons.append(bi.back_button)
 
         if self.play1_button in self.buttons:
             self.buttons.remove(self.play1_button)
@@ -176,6 +191,7 @@ class Saves:
                 if self.onbutton == 1 and s1_button_clicked:
                     if current_time - self.button_click_time >= 200:
                         Save(data.userdata, "save1")
+                        self.onbutton = 0
                 if self.slot1_button.rect.collidepoint(pos) is False and self.onbutton == 1:
                     if current_time - self.button_click_time >= 800:
                         self.onbutton = 0
@@ -210,13 +226,12 @@ class Saves:
                     self.buttons.remove(self.slot2_button)
                 self.slot2_button.change_image(a.emptyslot2_img, a.emptyslot2down_img)
                 if s2_button_clicked and self.onbutton == 0:
-                    if self.slot2_button in self.buttons:
-                        self.buttons.remove(self.slot2_button)
                     self.onbutton = 2
                     self.button_click_time = current_time
                 elif self.onbutton == 2 and s2_button_clicked:
                     if current_time - self.button_click_time >= 200:
                         Save(data.userdata, "save2")
+                        self.onbutton = 0
                 elif self.slot2_button.rect.collidepoint(pos) is False and self.onbutton == 2:
                     if current_time - self.button_click_time >= 800:
                         self.onbutton = 0
@@ -224,8 +239,6 @@ class Saves:
         if save3check:
             self.slot3_button.change_image(a.slot3_img, a.slot3down_img)
             if not self.confirm:
-                if self.slot3_button not in self.buttons:
-                    self.buttons.append(self.slot3_button)
                 if s3_button_clicked and self.onbutton == 0:
                     if self.slot3_button in self.buttons:
                         self.buttons.remove(self.slot3_button)
@@ -250,8 +263,6 @@ class Saves:
                     self.buttons.remove(self.slot3_button)
                 self.slot3_button.change_image(a.emptyslot3_img, a.emptyslot3down_img)
                 if s3_button_clicked and self.onbutton == 0:
-                    if self.slot3_button in self.buttons:
-                        self.buttons.remove(self.slot3_button)
                     self.onbutton = 3
                     self.button_click_time = current_time
                 elif self.onbutton == 3 and s3_button_clicked:
@@ -281,29 +292,31 @@ class Saves:
                         self.onbutton = 0
         else:
             self.autoslot_button.change_image(a.autosavedown_img, a.autosavedown_img)
+            if self.autoslot_button in self.buttons:
+                self.buttons.remove(self.autoslot_button)
             if not self.confirm:
                 if self.autoslot_button.draw(self.display):
                     pass
 
         if self.onbutton == 1:
             self.slot1_target = (1.2, width//2, height//2)
-            self.slot2_target = (0.1, width//2, 550)
-            self.slot3_target = (0.1, 900, 170)
+            self.slot2_target = (0, width//2, 550)
+            self.slot3_target = (0, 900, 170)
             self.autoslot_target = (0, 980, 530)
             if save1check:
                 self.play1_target = (0.2, width//2 - 60, height//2)
                 self.delete1_target = (0.2, width//2 + 60, height//2)
         elif self.onbutton == 2:
-            self.slot1_target = (0.1, 380, 170)
+            self.slot1_target = (0, 380, 170)
             self.slot2_target = (1.2, width//2, height//2)
-            self.slot3_target = (0.1, 900, 550)
+            self.slot3_target = (0, 900, 550)
             self.autoslot_target = (0, 980, 530)
             if save2check:
                 self.play2_target = (0.2, width//2 - 60, height//2)
                 self.delete2_target = (0.2, width//2 + 60, height//2)
         elif self.onbutton == 3:
-            self.slot1_target = (0.1, 380, 550)
-            self.slot2_target = (0.1, width//2, 170)
+            self.slot1_target = (0, 380, 550)
+            self.slot2_target = (0, width//2, 170)
             self.slot3_target = (1.2, width//2, height//2)
             self.autoslot_target = (0, 980, 530)
             if save3check:
@@ -342,7 +355,7 @@ class Saves:
         if self.confirm:
             if self.delete:
                 self.warn_text = f"are you sure\nyou want to delete\nsave number {self.save_num}?"
-                
+
             if self.load:
                 if self.autosaveclick:
                     self.warn_text = f"are you sure\nyou want to load\nthe autosave?"
@@ -357,7 +370,7 @@ class Saves:
             self.display.blit(self.tint_surface,(0, 0))
             a.textframe_rect.center = width // 2, 720 // 2
             self.display.blit(a.textframe, a.textframe_rect)
-            text.draw_text(self.warn_text, (0, 0, 0), width//2, height//2.5 - offset, 36, self.display)
+            text.draw_text(self.warn_text, (0, 0, 0), width//2, height//2.5 - offset, 50, self.display)
 
             if bi.confirm_button.draw(self.display):
                 if self.delete or self.corrupt:
@@ -378,6 +391,7 @@ class Saves:
                         self.load = False
                         self.autosaveclick = False
                         self.onbutton = 0
+                        df.autosave = False
                         fade(self.display)
 
                     except:
@@ -395,6 +409,16 @@ class Saves:
             self.buttons.extend({bi.confirm_button, bi.unconfirm_button})
 
         if not self.confirm:
+            if bi.confirm_button in self.buttons:
+                self.buttons.remove(bi.confirm_button)
+            if bi.unconfirm_button in self.buttons:
+                self.buttons.remove(bi.unconfirm_button)
+            if self.slot1_button not in self.buttons:
+                self.buttons.append(self.slot1_button)
+            if self.slot2_button not in self.buttons:
+                self.buttons.append(self.slot2_button)
+            if self.slot3_button not in self.buttons:
+                    self.buttons.append(self.slot3_button)
             if bi.back_button.draw(self.display):
                 self.gameStateManager.set_state("categorymenu")
                 fade(self.display)
@@ -415,13 +439,3 @@ class Saves:
         if self.gameStateManager.get_state() != "saves":
             self.onbutton = 0
             self.confirm = False
-
-    def update_button(self, button, target):
-        size, x, y = target
-        button.size = self.lerp(button.size, size, 0.1)
-        button.x = self.lerp(button.x, x, 0.1)
-        button.y = self.lerp(button.y, y, 0.1)
-        button.update()
-
-    def lerp(self, start, end, t):
-        return start + t * (end - start)

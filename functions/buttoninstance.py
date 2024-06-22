@@ -1,10 +1,7 @@
-# import necessary modules and classes
 import functions.buttonfunction as bf
 import assets.assets as a
 from utils.window import width, height
 
-
-# create instances of buttons with respective images and properties
 start_button = bf.Button(width//2, 550, a.start_img, a.startdown_img, 0.2)
 save_button = bf.Button(1180, 100, a.start_img, a.startdown_img, 0.2)
 confirm_button = bf.Button(400, 500, a.confirm_img, a.confirmdown_img, 0.075)
@@ -35,11 +32,16 @@ choose1_button = bf.Button(300, 620, a.choose_img, a.choosedown_img, 0.04)
 choose2_button = bf.Button(300, 480, a.choose_img, a.choosedown_img, 0.04)
 choose3_button = bf.Button(700, 620, a.choose_img, a.choosedown_img, 0.04)
 choose4_button = bf.Button(700, 480, a.choose_img, a.choosedown_img, 0.04)
+guide_button = bf.Button(50, 670, a.guide_img, a.guidedown_img, 0.075)
+gright_arrow = bf.Button(1100, height//2, a.rightarrow_img, a.rightarrowdown_img, 0.1)
+gleft_arrow = bf.Button(180, height//2, a.leftarrow_img, a.leftarrowdown_img, 0.1)
 
 #defaultbuttons
 settings_button = bf.Button(1230, 670, a.settings_img, a.settingsdown_img, 0.1)
-power_button = bf.Button(1230, 590, a.power_img, a.powerdown_img, 0.1)
-fs_button = bf.Button(1230, 510, a.fullscreen_img, a.fullscreen_img, 0.05)
-min_button = bf.Button(1230, 510, a.minimize_img, a.minimize_img, 0.05)
-asoff_button = bf.Button(1230, 430, a.autosaveoff_img, a.autosaveoff_img, 0.1)
-ason_button = bf.Button(1230, 430, a.autosaveon_img, a.autosaveon_img, 0.1)
+close_button = bf.Button(1020, 140, a.close_img, a.closedown_img, 0.1)
+toggle_fullscreenoff = bf.Button(900, 240, a.toggleoff_img, a.toggleoffdown_img, 0.1)
+toggle_fullscreenon = bf.Button(900, 240, a.toggleon_img, a.toggleondown_img, 0.1)
+toggle_aslocked = bf.Button(900, 310, a.toggleoffdown_img, a.toggleoffdown_img, 0.1)
+toggle_asoff = bf.Button(900, 310, a.toggleoff_img, a.toggleoffdown_img, 0.1)
+toggle_ason = bf.Button(900, 310, a.toggleon_img, a.toggleondown_img, 0.1)
+quit_button = bf.Button(width//2, 530, a.quit_img, a.quitdown_img, 0.6)

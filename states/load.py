@@ -14,7 +14,7 @@ class Loads:
     def __init__(self, display, gameStateManager):
         self.display = display
         self.gameStateManager = gameStateManager
-        self.buttons = [bi.power_button, bi.back_button]
+        self.buttons = []
         self.bg_x = 0
         self.bg_y = 0
         self.scroll_speed = 0.5
@@ -78,6 +78,16 @@ class Loads:
         self.autosaveclick = False
         self.corrupt = False
 
+    def lerp(self, start, end, t):
+        return start + t * (end - start)
+    
+    def update_button(self, button, target, speed=0.1):
+        size, x, y = target
+        button.size = self.lerp(button.size, size, speed)
+        button.x = self.lerp(button.x, x, speed)
+        button.y = self.lerp(button.y, y, speed)
+        button.update()
+
     def run(self):
         offset = 0
 
@@ -94,15 +104,8 @@ class Loads:
 
         a.textframe_rect.center = width//2, height//2
         self.display.blit(a.textframe, a.textframe_rect)
-
-        s1_button_clicked = self.slot1_button.draw(self.display)
-        s2_button_clicked = self.slot2_button.draw(self.display)
-        s3_button_clicked = self.slot3_button.draw(self.display)
-        auto_button_clicked = self.autoslot_button.draw(self.display)
-
-        p1_button_clicked = self.play1_button.draw(self.display)
-        p2_button_clicked = self.play2_button.draw(self.display)
-        p3_button_clicked = self.play3_button.draw(self.display)
+        a.loadtext_rect.center = width // 2, 140
+        self.display.blit(a.loadtext, a.loadtext_rect)
 
         if self.play1_button in self.buttons:
             self.buttons.remove(self.play1_button)
@@ -119,6 +122,8 @@ class Loads:
             self.buttons.remove(self.slot3_button)
  
         if save1check:
+            s1_button_clicked = self.slot1_button.draw(self.display)
+            p1_button_clicked = self.play1_button.draw(self.display)
             self.slot1_button.change_image(a.slot1_img, a.slot1down_img)
             if not self.confirm:
                 if self.slot1_button not in self.buttons:
@@ -132,8 +137,11 @@ class Loads:
                         self.confirm = True
                         self.save_num = 1
                 if self.slot1_button.rect.collidepoint(pos) is False and self.onbutton == 1:
-                    self.onbutton = 0
+                    if current_time - self.button_click_time >= 800:
+                        self.onbutton = 0
         else:
+            s1_button_clicked = self.slot1_button.draw(self.display, True)
+            p1_button_clicked = self.play1_button.draw(self.display, True)
             if not self.confirm:
                 if self.slot1_button in self.buttons:
                     self.buttons.remove(self.slot1_button)
@@ -142,6 +150,8 @@ class Loads:
                     pass
 
         if save2check:
+            s2_button_clicked = self.slot2_button.draw(self.display)
+            p2_button_clicked = self.play2_button.draw(self.display)
             self.slot2_button.change_image(a.slot2_img, a.slot2down_img)
             if not self.confirm:
                 if self.slot2_button not in self.buttons:
@@ -157,8 +167,11 @@ class Loads:
                         self.confirm = True
                         self.save_num = 2
                 elif self.slot2_button.rect.collidepoint(pos) is False and self.onbutton == 2:
-                    self.onbutton = 0
+                    if current_time - self.button_click_time >= 800:
+                        self.onbutton = 0
         else:
+            s2_button_clicked = self.slot2_button.draw(self.display, True)
+            p2_button_clicked = self.play2_button.draw(self.display, True)
             if not self.confirm:
                 if self.slot2_button in self.buttons:
                     self.buttons.remove(self.slot2_button)
@@ -167,6 +180,8 @@ class Loads:
                     pass
 
         if save3check:
+            s3_button_clicked = self.slot3_button.draw(self.display)
+            p3_button_clicked = self.play3_button.draw(self.display)
             self.slot3_button.change_image(a.slot3_img, a.slot3down_img)
             if not self.confirm:
                 if self.slot3_button not in self.buttons:
@@ -182,8 +197,11 @@ class Loads:
                         self.confirm = True
                         self.save_num = 3
                 elif self.slot3_button.rect.collidepoint(pos) is False and self.onbutton == 3:
-                    self.onbutton = 0
+                    if current_time - self.button_click_time >= 800:
+                        self.onbutton = 0
         else:
+            s3_button_clicked = self.slot3_button.draw(self.display, True)
+            p3_button_clicked = self.play3_button.draw(self.display, True)
             if not self.confirm:
                 if self.slot3_button in self.buttons:
                     self.buttons.remove(self.slot3_button)
@@ -192,6 +210,7 @@ class Loads:
                     pass
 
         if autosavecheck:
+            auto_button_clicked = self.autoslot_button.draw(self.display)
             self.autoslot_button.change_image(a.autosave_img, a.autosavedown_img)
             if not self.confirm:
                 if self.autoslot_button not in self.buttons:
@@ -216,19 +235,19 @@ class Loads:
 
         if self.onbutton == 1:
             self.slot1_target = (1.2, width//2, height//2)
-            self.slot2_target = (0.1, width//2, 550)
-            self.slot3_target = (0.1, 900, 170)
+            self.slot2_target = (0, width//2, 550)
+            self.slot3_target = (0, 900, 170)
             self.autoslot_target = (0, 980, 530)
             self.play1_target = (0.2, width//2, height//2)
         elif self.onbutton == 2:
-            self.slot1_target = (0.1, 380, 170)
+            self.slot1_target = (0, 380, 170)
             self.slot2_target = (1.2, width//2, height//2)
-            self.slot3_target = (0.1, 900, 550)
+            self.slot3_target = (0, 900, 550)
             self.autoslot_target = (0, 980, 530)
             self.play2_target = (0.2, width//2, height//2)
         elif self.onbutton == 3:
-            self.slot1_target = (0.1, 380, 550)
-            self.slot2_target = (0.1, width//2, 170)
+            self.slot1_target = (0, 380, 550)
+            self.slot2_target = (0, width//2, 170)
             self.slot3_target = (1.2, width//2, height//2)
             self.autoslot_target = (0, 980, 530)
             self.play3_target = (0.2, width//2, height//2)
@@ -269,7 +288,7 @@ class Loads:
             else:
                 self.warn_text = f"are you sure\nyou want to load\nsave number {self.save_num}?"
 
-            text.draw_text(self.warn_text, (0, 0, 0), width//2, height//2.5 - offset, 36, self.display)
+            text.draw_text(self.warn_text, (0, 0, 0), width//2, height//2.5 - offset, 50, self.display)
             if bi.confirm_button.draw(self.display):
 
                 if self.corrupt:
@@ -304,6 +323,12 @@ class Loads:
             self.buttons.extend({bi.confirm_button, bi.unconfirm_button})
 
         if not self.confirm:
+            if bi.confirm_button in self.buttons:
+                self.buttons.remove(bi.confirm_button)
+            if bi.unconfirm_button in self.buttons:
+                self.buttons.remove(bi.unconfirm_button)
+            if bi.back_button not in self.buttons:
+                self.buttons.append(bi.back_button)
             if bi.back_button.draw(self.display):
                 self.gameStateManager.set_state("mainmenu")
                 fade(self.display)
@@ -324,13 +349,3 @@ class Loads:
         if self.gameStateManager.get_state() is not "loads":
             self.onbutton = 0
             self.confirm = False
-
-    def update_button(self, button, target, speed=0.1):
-        size, x, y = target
-        button.size = self.lerp(button.size, size, speed)
-        button.x = self.lerp(button.x, x, speed)
-        button.y = self.lerp(button.y, y, speed)
-        button.update()
-
-    def lerp(self, start, end, t):
-        return start + t * (end - start)

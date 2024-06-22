@@ -6,11 +6,11 @@ import functions.keypress as k
 import assets.assets as a
 import utils.defaultbutton as df
 from utils.window import width, height
-from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
 from functions.customcursor import CustomCursor
+from functions.floatanim import FloatAnim
 
 class ShapeSpelling:
     def __init__(self, display, gameStateManager):
@@ -34,6 +34,7 @@ class ShapeSpelling:
         self.return_pressed = False
         self.used_shapes = []
         self.cursor = CustomCursor()
+        self.float_anim = FloatAnim(0.01, 12)
 
     def set_data(self, data):
         self.data = data
@@ -63,15 +64,16 @@ class ShapeSpelling:
             self.confirm = True
 
         self.bg_x, self.bg_y = scroll_bg(self.display, a.unscroll_bg, self.bg_x, self.bg_y, self.scroll_speed)
+        self.float_offset = self.float_anim.update()
 
         if not self.confirm:
             self.display.blit(self.tint_surface,(0, 0))
-            a.textframe_rect.center = width//2, height//2
+            a.textframe_rect.center = width//2, height//2 + self.float_offset
             self.display.blit(a.textframe, a.textframe_rect)
-            a.pleaseread_rect.center = width//2, 150
+            a.pleaseread_rect.center = width//2, 150 + self.float_offset
             self.display.blit(a.pleaseread, a.pleaseread_rect)
-            text.draw_text("Type the name of the\nshape using your keyboard\nand press the green button \nor enter key\nto confirm your answer", (0, 0, 0), width//2, 280, 35, self.display)
-            text.draw_text("...press your left mousebutton to continue...", (0, 0, 0), width//2, 550, 20, self.display)
+            text.draw_text("Type the name of the\nshape using your keyboard\nand press the green button \nor enter key\nto confirm your answer", (0, 0, 0), width//2, 280 + self.float_offset, 40, self.display)
+            text.draw_text("...press your left mousebutton to continue...", (0, 0, 0), width//2, 550 + self.float_offset, 20, self.display)
 
         if self.confirm:
             self.buttons.append(bi.confirm2_button)
@@ -93,7 +95,7 @@ class ShapeSpelling:
 
             if self.question == 1:
                 self.data_rect = self.current_shape.get_rect()
-                self.data_rect.center = width//2, 300
+                self.data_rect.center = width//2, 300 + self.float_offset
                 self.display.blit(self.current_shape, self.data_rect)
 
             if self.question == 2:
@@ -106,7 +108,7 @@ class ShapeSpelling:
                     self.data_randomized = True
 
                 self.data_rect = self.current_shape.get_rect()
-                self.data_rect.center = width//2, 300
+                self.data_rect.center = width//2, 300 + self.float_offset
                 self.display.blit(self.current_shape, self.data_rect)
 
             if self.question == 3:
@@ -119,7 +121,7 @@ class ShapeSpelling:
                     self.data_randomized = True
 
                 self.data_rect = self.current_shape.get_rect()
-                self.data_rect.center = width//2, 300
+                self.data_rect.center = width//2, 300 + self.float_offset
                 self.display.blit(self.current_shape, self.data_rect)
 
             if self.question == 4:
@@ -138,7 +140,7 @@ class ShapeSpelling:
             fadein(self.display, self.fade_alpha)
             self.fade_alpha -= 5
 
-        if self.gameStateManager.get_state() is not "shapespelling":
+        if self.gameStateManager.get_state() != "shapespelling":
             self.question = 1
             self.used_shapes = []
             self.confirm = False

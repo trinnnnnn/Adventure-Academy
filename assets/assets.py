@@ -1,9 +1,17 @@
 import pygame
 import pygame.locals
 
+pygame.mixer.init()
+
 #bg
 unscroll_bg = pygame.image.load("assets/images/bg/bg.png")
 unscroll_bg = pygame.transform.scale(unscroll_bg, (1280, 720))
+
+#sound
+bgmusic1 = "assets/sound/music/bgmusic1.mp3"
+bgmusic2 = "assets/sound/music/bgmusic2.mp3"
+button_hover = pygame.mixer.Sound("assets/sound/ui/button_hover.wav")
+button_click = pygame.mixer.Sound("assets/sound/ui/button_click.wav")
 
 #buttons
 start_img = pygame.image.load("assets/images/buttons/placeholder_button.png").convert_alpha()
@@ -80,6 +88,16 @@ autosaveoff_img = pygame.image.load("assets/images/buttons/autosaveoff.png").con
 autosaveon_img = pygame.image.load("assets/images/buttons/autosaveon.png").convert_alpha()
 autosave_img = pygame.image.load("assets/images/buttons/autosave.png").convert_alpha()
 autosavedown_img = pygame.image.load("assets/images/buttons/autosavedown.png").convert_alpha()
+close_img = pygame.image.load("assets/images/buttons/close.png").convert_alpha()
+closedown_img = pygame.image.load("assets/images/buttons/closedown.png").convert_alpha()
+toggleoff_img = pygame.image.load("assets/images/buttons/toggleoff.png").convert_alpha()
+toggleoffdown_img = pygame.image.load("assets/images/buttons/toggleoffdown.png").convert_alpha()
+toggleon_img = pygame.image.load("assets/images/buttons/toggleon.png").convert_alpha()
+toggleondown_img = pygame.image.load("assets/images/buttons/toggleondown.png").convert_alpha()
+quit_img = pygame.image.load("assets/images/buttons/quit.png").convert_alpha()
+quitdown_img = pygame.image.load("assets/images/buttons/quitdown.png").convert_alpha()
+guide_img = pygame.image.load("assets/images/buttons/guide.png").convert_alpha()
+guidedown_img = pygame.image.load("assets/images/buttons/guidedown.png").convert_alpha()
 
 #shapes
 circle_original = pygame.image.load("assets/images/shapes/circle.png").convert_alpha()
@@ -113,7 +131,6 @@ triangle_rect = triangle.get_rect()
 textframe_original = pygame.image.load("assets/images/util/textframe.png").convert_alpha()
 textinputframe_original = pygame.image.load("assets/images/util/textinputframe.png").convert_alpha()
 gameframe_original = pygame.image.load("assets/images/buttons/smallframe.png").convert_alpha()
-textinputframe_original = pygame.image.load("assets/images/util/textinputframe.png").convert_alpha()
 shapes_original = pygame.image.load("assets/images/buttons/shapes.png").convert_alpha()
 pleaseread_original = pygame.image.load("assets/images/util/pleaseread.png").convert_alpha()
 zerostars_original = pygame.image.load("assets/images/util/zerostars.png").convert_alpha()
@@ -122,6 +139,13 @@ twostars_original = pygame.image.load("assets/images/util/twostars.png").convert
 threestars_original = pygame.image.load("assets/images/util/threestars.png").convert_alpha()
 shapebox_original = pygame.image.load("assets/images/util/shapebox.png").convert_alpha()
 logo_original = pygame.image.load("assets/images/util/logo.png").convert_alpha()
+settingstext_original = pygame.image.load("assets/images/util/settingstext.png").convert_alpha()
+settingsbox_original = pygame.image.load("assets/images/util/settingsbox.png").convert_alpha()
+slider_track_original = pygame.image.load('assets/images/util/slider_track.png')
+slider_handle_original = pygame.image.load('assets/images/util/slider_handle.png')
+loadtext_original = pygame.image.load("assets/images/util/loadtext.png").convert_alpha()
+loadsavetext_original = pygame.image.load("assets/images/util/loadsavetext.png").convert_alpha()
+guidetext_original = pygame.image.load("assets/images/util/guidetext.png").convert_alpha()
 
 #utility scaling
 textframe = pygame.transform.scale(textframe_original, (int(textframe_original.get_width() * 0.33), int(textframe_original.get_height() * 0.33))).convert_alpha()
@@ -172,3 +196,20 @@ threestars = pygame.transform.scale(threestars_original, (int(threestars_origina
 threestars_rect = threestars.get_rect()
 logo = pygame.transform.scale(logo_original, (int(logo_original.get_width() * 0.8), int(logo_original.get_height() * 0.8))).convert_alpha()
 logo_rect = logo.get_rect()
+settingstext = pygame.transform.scale(settingstext_original, (int(settingstext_original.get_width() * 0.7), int(settingstext_original.get_height() * 0.7))).convert_alpha()
+settingstext_rect = settingstext.get_rect()
+settingsbox = pygame.transform.scale(settingsbox_original, (int(settingsbox_original.get_width() * 0.4), int(settingsbox_original.get_height() * 0.4))).convert_alpha()
+settingsbox_rect = settingsbox.get_rect()
+slider_track = pygame.transform.scale(slider_track_original, (int(slider_track_original.get_width() * 0.12), int(slider_track_original.get_height() * 0.12))).convert_alpha()
+slider_track_rect = slider_track.get_rect()
+slider_handle = pygame.transform.scale(slider_handle_original, (int(slider_handle_original.get_width() * 0.23), int(slider_handle_original.get_height() * 0.23))).convert_alpha()
+slider_handle_rect = slider_handle.get_rect()
+loadtext = pygame.transform.scale(loadtext_original, (int(loadtext_original.get_width() * 0.8), int(loadtext_original.get_height() * 0.8))).convert_alpha()
+loadtext_rect = loadtext.get_rect()
+loadsavetext = pygame.transform.scale(loadsavetext_original, (int(loadsavetext_original.get_width() * 0.8), int(loadsavetext_original.get_height() * 0.8))).convert_alpha()
+loadsavetext_rect = loadsavetext.get_rect()
+guidetext = pygame.transform.scale(guidetext_original, (int(guidetext_original.get_width() * 0.8), int(guidetext_original.get_height() * 0.8))).convert_alpha()
+guidetext_rect = guidetext.get_rect()
+
+settingsbox_width = settingsbox.get_width()
+settingsbox_height = settingsbox.get_height()

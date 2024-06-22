@@ -46,6 +46,16 @@ class Categorymenu:
         self.onbutton = 0
         self.cursor = CustomCursor()
 
+    def lerp(self, start, end, t):
+        return start + t * (end - start)
+        
+    def update_button(self, button, target):
+        size, x, y = target
+        button.size = self.lerp(button.size, size, 0.1)
+        button.x = self.lerp(button.x, x, 0.1)
+        button.y = self.lerp(button.y, y, 0.1)
+        button.update()
+
     def run(self):
         pos = pygame.mouse.get_pos()
         self.text = f"Hello {data.userdata['username']}"
@@ -56,7 +66,7 @@ class Categorymenu:
             self.display.blit(self.tint_surface,(0, 0))
             a.textframe_rect.center = width // 2, 720 // 2
             self.display.blit(a.textframe, a.textframe_rect)
-            text.draw_text("are you sure\nyou want to exit\nto the main menu?", (0, 0, 0), width//2, height//2.5, 36, self.display)
+            text.draw_text("are you sure\nyou want to exit\nto the main menu?", (0, 0, 0), width//2, height//2.5, 50, self.display)
             if bi.confirm_button.draw(self.display):
                 self.gameStateManager.set_state("mainmenu")
                 fade(self.display)
@@ -71,7 +81,7 @@ class Categorymenu:
             a.textframe2_rect.center = width // 2, height // 2
             self.display.blit(a.textframe2, a.textframe2_rect)
 
-            text.draw_text(self.text, (0, 0, 0), width // 2, 120, 40, self.display)
+            text.draw_text(self.text, (255, 255, 255), width // 2, 120, 80, self.display, shadow=True, outline=True)
 
             shapes_button_clicked = self.shapes_button.draw(self.display)
             colours_button_clicked = self.colours_button.draw(self.display)
@@ -88,7 +98,8 @@ class Categorymenu:
                     self.gameStateManager.set_state("stagemenu")
                     fade(self.display)
             elif not self.shapes_button.rect.collidepoint(pos) and self.onbutton == 1:
-                self.onbutton = 0
+                if current_time - self.button_click_time >= 1000:
+                    self.onbutton = 0
 
             if colours_button_clicked and self.onbutton == 0:
                 self.onbutton = 2
@@ -99,7 +110,8 @@ class Categorymenu:
                     self.gameStateManager.set_state("stagemenu")
                     fade(self.display)
             elif not self.colours_button.rect.collidepoint(pos) and self.onbutton == 2:
-                self.onbutton = 0
+                if current_time - self.button_click_time >= 1000:
+                    self.onbutton = 0
 
             if alphabet_button_clicked and self.onbutton == 0:
                 self.onbutton = 3
@@ -110,7 +122,8 @@ class Categorymenu:
                     self.gameStateManager.set_state("stagemenu")
                     fade(self.display)
             elif not self.alphabet_button.rect.collidepoint(pos) and self.onbutton == 3:
-                self.onbutton = 0
+                if current_time - self.button_click_time >= 1000:
+                    self.onbutton = 0
 
             if self.onbutton == 1:
                 self.shapes_target = (1.2, width // 2, height // 2)
@@ -154,13 +167,3 @@ class Categorymenu:
             self.fade_alpha = 255
             self.onbutton = 0
             self.confirm = False
-
-    def update_button(self, button, target):
-        size, x, y = target
-        button.size = self.lerp(button.size, size, 0.1)
-        button.x = self.lerp(button.x, x, 0.1)
-        button.y = self.lerp(button.y, y, 0.1)
-        button.update()
-
-    def lerp(self, start, end, t):
-        return start + t * (end - start)

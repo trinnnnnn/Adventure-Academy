@@ -1,1 +1,0 @@
-{"username": "a", "shapenamingcheck": false, "shapenaming": 0, "shapematchingcheck": false, "shapematching": 0, "shapespellingcheck": false, "shapespelling": 0}

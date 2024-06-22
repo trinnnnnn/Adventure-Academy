@@ -6,11 +6,11 @@ import functions.text as text
 import assets.assets as a
 import utils.defaultbutton as df
 from utils.window import width, height
-from functions.saveloadmanager import Save
 from functions.buttonfunction import CursorChanger
 from functions.transition import *
 from functions.scrollingbg import scroll_bg
 from functions.customcursor import CustomCursor
+from functions.floatanim import FloatAnim
 
 class ShapeMatching:
     def __init__(self, display, gameStateManager):
@@ -37,6 +37,7 @@ class ShapeMatching:
         self.question_start_time = None
         self.used_shapes = []
         self.cursor = CustomCursor()
+        self.float_anim = FloatAnim(0.01, 12)
         self.dragging_shape = None
         self.drag_offset_x = 0
         self.drag_offset_y = 0
@@ -96,53 +97,54 @@ class ShapeMatching:
         }
 
     def drag_and_drop_randomizer(self):
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        mouse_pressed = pygame.mouse.get_pressed()
+        if not df.settings:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            mouse_pressed = pygame.mouse.get_pressed()
 
-        if mouse_pressed[0]:
-            if self.dragging_shape is None:
-                for shape_name, shape_rect in self.shape_rects.items():
-                    if shape_rect.collidepoint(mouse_x, mouse_y):
-                        local_x = mouse_x - shape_rect.x
-                        local_y = mouse_y - shape_rect.y
-                        if self.data[shape_name].get_at((local_x, local_y))[3] != 0:
-                            self.dragging_shape = shape_name
-                            self.drag_offset_x = shape_rect.x - mouse_x
-                            self.drag_offset_y = shape_rect.y - mouse_y
-                            break
+            if mouse_pressed[0]:
+                if self.dragging_shape is None:
+                    for shape_name, shape_rect in self.shape_rects.items():
+                        if shape_rect.collidepoint(mouse_x, mouse_y):
+                            local_x = mouse_x - shape_rect.x
+                            local_y = mouse_y - shape_rect.y
+                            if self.data[shape_name].get_at((local_x, local_y))[3] != 0:
+                                self.dragging_shape = shape_name
+                                self.drag_offset_x = shape_rect.x - mouse_x
+                                self.drag_offset_y = shape_rect.y - mouse_y
+                                break
+                else:
+                    shape_rect = self.shape_rects[self.dragging_shape]
+                    shape_rect.x = mouse_x + self.drag_offset_x
+                    shape_rect.y = mouse_y + self.drag_offset_y
             else:
-                shape_rect = self.shape_rects[self.dragging_shape]
-                shape_rect.x = mouse_x + self.drag_offset_x
-                shape_rect.y = mouse_y + self.drag_offset_y
-        else:
-            if self.dragging_shape is not None:
-                shape_rect = self.shape_rects[self.dragging_shape]
-                if self.shapeframe1_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data1_name:
-                    self.answer1 = 1
-                elif self.shapeframe1_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data1_name:
-                    self.answer1 = 0
-                elif self.shapeframe2_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data2_name:
-                    self.answer2 = 1
-                elif self.shapeframe2_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data2_name:
-                    self.answer2 = 0
-                elif self.shapeframe3_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data3_name:
-                    self.answer3 = 1
-                elif self.shapeframe3_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data3_name:
-                    self.answer2 = 0
-                elif self.shapeframe4_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data4_name:
-                    self.answer4 = 1
-                elif self.shapeframe4_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data4_name:
-                    self.answer4 = 0
+                if self.dragging_shape is not None:
+                    shape_rect = self.shape_rects[self.dragging_shape]
+                    if self.shapeframe1_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data1_name:
+                        self.answer1 = 1
+                    elif self.shapeframe1_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data1_name:
+                        self.answer1 = 0
+                    elif self.shapeframe2_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data2_name:
+                        self.answer2 = 1
+                    elif self.shapeframe2_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data2_name:
+                        self.answer2 = 0
+                    elif self.shapeframe3_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data3_name:
+                        self.answer3 = 1
+                    elif self.shapeframe3_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data3_name:
+                        self.answer2 = 0
+                    elif self.shapeframe4_rect.collidepoint(shape_rect.center) and self.dragging_shape == self.data4_name:
+                        self.answer4 = 1
+                    elif self.shapeframe4_rect.collidepoint(shape_rect.center) and self.dragging_shape != self.data4_name:
+                        self.answer4 = 0
 
-                all_in_boxes = all(
-                    any(target_rect.collidepoint(shape_rect.center) for target_rect in (self.shapeframe1_rect, self.shapeframe2_rect, self.shapeframe3_rect, self.shapeframe4_rect))
-                    for shape_rect in self.shape_rects.values()
-                )
+                    all_in_boxes = all(
+                        any(target_rect.collidepoint(shape_rect.center) for target_rect in (self.shapeframe1_rect, self.shapeframe2_rect, self.shapeframe3_rect, self.shapeframe4_rect))
+                        for shape_rect in self.shape_rects.values()
+                    )
 
-                if all_in_boxes:
-                    self.confirm_answer = True
-                    
-                self.dragging_shape = None
+                    if all_in_boxes:
+                        self.confirm_answer = True
+                        
+                    self.dragging_shape = None
 
     def reset(self):
         self.answer1 = 0
@@ -168,18 +170,19 @@ class ShapeMatching:
 
         if not self.confirm:
             self.display.blit(self.tint_surface, (0, 0))
-            a.textframe_rect.center = width // 2, height // 2
+            self.float_offset = self.float_anim.update()
+            a.textframe_rect.center = width // 2, height // 2 + self.float_offset
             self.display.blit(a.textframe, a.textframe_rect)
-            a.pleaseread_rect.center = width // 2, 150
+            a.pleaseread_rect.center = width // 2, 150 + self.float_offset
             self.display.blit(a.pleaseread, a.pleaseread_rect)
-            text.draw_text("drag and drop the shapes\nto match them with their\ncorrect name", (0, 0, 0), width // 2, 300, 35, self.display)
-            text.draw_text("...press your left mouse button to continue...", (0, 0, 0), width // 2, 550, 20, self.display)
+            text.draw_text("drag and drop the shapes\nto match them with their\ncorrect name", (0, 0, 0), width // 2, 300 + self.float_offset, 50, self.display)
+            text.draw_text("...press your left mouse button to continue...", (0, 0, 0), width // 2, 550 + self.float_offset, 20, self.display)
 
         if self.confirm_answer:
             self.display.blit(self.tint_surface,(0, 0))
             a.textframe_rect.center = width // 2, 720 // 2
             self.display.blit(a.textframe, a.textframe_rect)
-            text.draw_text("are you sure with\nyour answer?", (0, 0, 0), width//2, height//2.5, 40, self.display)
+            text.draw_text("are you sure with\nyour answer?", (0, 0, 0), width//2, height//2.5, 60, self.display)
             if bi.confirm_button.draw(self.display):
                 self.score = self.answer1 + self.answer2 + self.answer3 + self.answer4
                 if self.score == 4:

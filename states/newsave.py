@@ -19,11 +19,10 @@ class Newsave:
         self.gameStateManager = gameStateManager
         self.name = ""
         self.namecheck = ""
-        self.buttons = [bi.start_button, bi.power_button]
+        self.buttons = []
         self.bg_x = 0
         self.bg_y = 0
         self.scroll_speed = 0.5
-        self.last_keypress_time = pygame.time.get_ticks()
         self.fade_alpha = 255
         self.limit = False
         self.width = width // 2
@@ -38,54 +37,73 @@ class Newsave:
         self.limit_start_time = 0
         self.cursor = CustomCursor()
         self.resetcheck = False
+        self.offsetcheck = False
 
     def reset(self):
         self.name = ""
         self.namecheck = ""
-        data.userdata["username"] = ""
-        data.userdata["shapenamingcheck"] = False
-        data.userdata["shapenaming"] = 0
-        data.userdata["shapematchingcheck"] = False
-        data.userdata["shapematching"] = 0
-        data.userdata["shapespellingcheck"] = False
-        data.userdata["shapespelling"] = 0
+        data.userdata.update({
+            "username": "",
+            "shapenamingcheck": False,
+            "shapenaming": 0,
+            "shapematchingcheck": False,
+            "shapematching": 0,
+            "shapespellingcheck": False,
+            "shapespelling": 0,
+        })
+
+    def check_key_press(self, keys):
+        for i in itertools.chain(range(pygame.K_a, pygame.K_z + 1), range(pygame.K_0, pygame.K_9 + 1)):
+            if keys[i] and len(self.namecheck) == 14:
+                self.offsetcheck = True
+                self.limit = True
+                self.limit_start_time = pygame.time.get_ticks()
+                self.text = "Maximum characters\nhave been reached"
+                return
+
+    def draw_text(self, offset):
+        a.textinputframe_rect.center = self.width, 400
+        self.display.blit(a.textinputframe, a.textinputframe_rect)
+        text.draw_text(self.text, (255, 255, 255), self.width, 220 - offset, 80, self.display, shadow=True, outline=True)
+        text.draw_text(self.name, (0, 0, 0), self.width, 400, 70, self.display)
+
+    def handle_limit(self):
+        if self.limit:
+            self.width, self.shake_start_time, self.elapsed = x_shake(
+                self.width, self.original_width, self.shake_amplitude, 
+                self.shake_speed, self.shake_duration, self.shake_start_time)
+            if pygame.time.get_ticks() - self.limit_start_time >= 1500:
+                self.limit = False
 
     def run(self):
         self.bg_x, self.bg_y = scroll_bg(self.display, a.unscroll_bg, self.bg_x, self.bg_y, self.scroll_speed)
+        offset = 60 if self.offsetcheck else 0
 
-        if self.resetcheck is False:
+        if not self.resetcheck:
             self.reset()
             self.resetcheck = True
 
-        if bi.start_button.draw(self.display) or self.return_pressed:
-            if len(self.name) == 0:
+        if bi.play_button not in self.buttons:
+            self.buttons.append(bi.play_button)
+
+        if bi.play_button.draw(self.display) or self.return_pressed:
+            if not self.name:
                 self.limit = True
                 self.limit_start_time = pygame.time.get_ticks()
-                self.text = "please enter your name"
+                self.text = "Please enter your name"
             else:
                 self.gameStateManager.set_state("categorymenu")
                 fade(self.display)
 
-        if self.limit:
-            self.width, self.shake_start_time, self.elapsed = x_shake(self.width, self.original_width, self.shake_amplitude, self.shake_speed, self.shake_duration, self.shake_start_time)
-            current_time = pygame.time.get_ticks()
-            if current_time - self.limit_start_time >= 1500:
-                self.limit = False
-
         keys = pygame.key.get_pressed()
-        for i in itertools.chain(range(pygame.K_a, pygame.K_z + 1), range(pygame.K_0, pygame.K_9 + 1)):
-            if keys[i] and len(self.namecheck) == 14:
-                self.limit = True
-                self.limit_start_time = pygame.time.get_ticks()
-                self.text = "Maximum characters\nhave been reached"
-        if len(self.name) < 13 and len(self.name) != 0:
+        self.check_key_press(keys)
+
+        if len(self.name) < 13 and self.name:
             self.text = "Enter your name"
+            self.offsetcheck = False
 
-        a.textinputframe_rect.center = self.width, 400
-        self.display.blit(a.textinputframe, a.textinputframe_rect)
-
-        text.draw_text(self.text, (0, 0, 0), self.width, 220, 50, self.display)
-        text.draw_text(self.name, (0, 0, 0), self.width, 400, 50, self.display)
+        self.handle_limit()
+        self.draw_text(offset)
 
         self.name, self.return_pressed = k.Keypress(self, None, self.name, 13)
         self.namecheck, _ = k.Keypress(self, None, self.name, 14)

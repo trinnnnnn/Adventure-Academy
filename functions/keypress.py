@@ -1,4 +1,5 @@
 import pygame
+import assets.assets as a
 from functions.transition import fade
 
 current_key_pressed = []
@@ -35,6 +36,7 @@ def Keypress(self, state, text, max_len):
     current_key_pressed = [char for char in current_key_pressed if keys[ord(char)]]
 
     if keys[pygame.K_RETURN]:
+        pygame.mixer.Sound.play(a.button_click)
         return_pressed = True
         if state is not None:
             self.gameStateManager.set_state(state)
