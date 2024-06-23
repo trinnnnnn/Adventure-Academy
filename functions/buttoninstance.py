@@ -1,13 +1,13 @@
-# import necessary modules and classes
 import functions.buttonfunction as bf
 import assets.assets as a
 from utils.window import width, height
 
-# create instances of buttons with respective images and properties
 start_button = bf.Button(width//2, 550, a.start_img, a.startdown_img, 0.2)
-save_button = bf.Button(1100, 100, a.start_img, a.startdown_img, 0.2)
+save_button = bf.Button(1180, 100, a.start_img, a.startdown_img, 0.2)
 confirm_button = bf.Button(400, 500, a.confirm_img, a.confirmdown_img, 0.075)
+confirm2_button = bf.Button(1080, 550, a.confirm_img, a.confirmdown_img, 0.075)
 unconfirm_button = bf.Button(880, 500, a.unconfirm_img, a.unconfirmdown_img, 0.075)
+back_button = bf.Button(65, 65, a.back_img, a.backdown_img, 0.14)
 shapes_button = bf.Button(400, 300, a.shapes_img, a.shapesdown_img, 0.65)
 alphabet_button = bf.Button(820, 300, a.alphabet_img, a.alphabetdown_img, 0.65)
 colours_button = bf.Button(width//2, 400, a.colours_img, a.coloursdown_img, 0.65)
@@ -17,6 +17,31 @@ emptyslot3_button = bf.Button(900, height//2, a.emptyslot3_img, a.emptyslot3down
 slot1_button = bf.Button(380, height//2, a.slot1_img, a.slot1down_img, 0.65)
 slot2_button = bf.Button(width//2, height//2, a.slot2_img, a.slot2down_img, 0.65)
 slot3_button = bf.Button(900, height//2, a.slot3_img, a.slot3down_img, 0.65)
+autoslot_button = bf.Button(980, 530, a.autosave_img, a.autosavedown_img, 0.8)
+save_button = bf.Button(1215, 65, a.save_img, a.savedown_img, 0.16)
+delete1_button = bf.Button(380, height//2, a.delete1_img, a.delete1down_img, 0.1)
+delete2_button = bf.Button(width//2, height//2, a.delete2_img, a.delete2down_img, 0.1)
+delete3_button = bf.Button(900, height//2, a.delete3_img, a.delete3down_img, 0.1)
+play1_button = bf.Button(380, height//2, a.play1_img, a.play1down_img, 0.1)
+play2_button = bf.Button(width//2, height//2, a.play2_img, a.play2down_img, 0.1)
+play3_button = bf.Button(900, height//2, a.play3_img, a.play3down_img, 0.1)
+leftarrow_button = bf.Button(330, height//2, a.leftarrow_img, a.leftarrowdown_img, 0.08)
+rightarrow_button = bf.Button(950, height//2, a.rightarrow_img, a.rightarrowdown_img, 0.08)
+play_button = bf.Button(width//2, 600, a.play_img, a.playdown_img, 0.2)
+choose1_button = bf.Button(300, 620, a.choose_img, a.choosedown_img, 0.04)
+choose2_button = bf.Button(300, 480, a.choose_img, a.choosedown_img, 0.04)
+choose3_button = bf.Button(700, 620, a.choose_img, a.choosedown_img, 0.04)
+choose4_button = bf.Button(700, 480, a.choose_img, a.choosedown_img, 0.04)
+guide_button = bf.Button(50, 670, a.guide_img, a.guidedown_img, 0.075)
+gright_arrow = bf.Button(1100, height//2, a.rightarrow_img, a.rightarrowdown_img, 0.1)
+gleft_arrow = bf.Button(180, height//2, a.leftarrow_img, a.leftarrowdown_img, 0.1)
 
 #defaultbuttons
-power_button = bf.Button(65, 65, a.power_img, a.powerdown_img, 0.1)
+settings_button = bf.Button(1230, 670, a.settings_img, a.settingsdown_img, 0.1)
+close_button = bf.Button(1020, 140, a.close_img, a.closedown_img, 0.1)
+toggle_fullscreenoff = bf.Button(900, 240, a.toggleoff_img, a.toggleoffdown_img, 0.1)
+toggle_fullscreenon = bf.Button(900, 240, a.toggleon_img, a.toggleondown_img, 0.1)
+toggle_aslocked = bf.Button(900, 310, a.toggleoffdown_img, a.toggleoffdown_img, 0.1)
+toggle_asoff = bf.Button(900, 310, a.toggleoff_img, a.toggleoffdown_img, 0.1)
+toggle_ason = bf.Button(900, 310, a.toggleon_img, a.toggleondown_img, 0.1)
+quit_button = bf.Button(width//2, 530, a.quit_img, a.quitdown_img, 0.6)
